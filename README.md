@@ -56,7 +56,7 @@ nav.scrolling-down {
   opacity: 0;
 }
 nav.scrolling-up {
-  opacity: 0;
+  opacity: 1;
 }
 ```
 
