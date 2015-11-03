@@ -77,7 +77,7 @@ module.exports = function (grunt) {
           './modules/**/*.html',
           './modules/**/**/*.html'
         ],
-        tasks: ['lint','less:development']
+        tasks: ['less:development']
       },
       javascript: {
         files: [
@@ -157,6 +157,14 @@ module.exports = function (grunt) {
       },
       production: {
         src: ['<%= config.outputDir %><%= pkg.name %>.min.js']
+      }
+    },
+
+    protractor_webdriver: {
+      dist: {
+        options: {
+          command: 'webdriver-manager update && webdriver-manager start',
+        }
       }
     },
 
@@ -370,6 +378,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-protractor-webdriver');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-ng-constant');
   grunt.loadNpmTasks('grunt-bump');
@@ -445,6 +454,7 @@ module.exports = function (grunt) {
     'copy',
     'processhtml:e2e',
     'connect:servertest',
+    'protractor_webdriver',
     'protractor:dist',
     'clean:afterTest'
   ]);
