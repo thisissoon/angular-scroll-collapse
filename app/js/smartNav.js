@@ -51,6 +51,7 @@ angular.module('sn.smartNav', [
         var scrollingDown = false;
         /**
          * @method isScrollingDown
+         * @private
          * @param  {Number}  currentScrollTop
          * @return {Boolean} True if last scroll direction is down
          */
@@ -68,15 +69,16 @@ angular.module('sn.smartNav', [
         };
         /**
          * Calulate the current scroll direction and add relevent classes
+         * @private
          * @method calScrollDir
-         * @param  {Number}  scrollTop
+         * @param  {Number} scrollTop
          */
         var calScrollDir = function calScrollDir(scrollTop){
-          if ($scope.scrollingDown && isScrollingUp(scrollTop)) {
+          if ( scrollingDown && isScrollingUp(scrollTop) ) {
             scrollingDown = false;
             $element.removeClass('scrolling-down');
             $element.addClass('scrolling-up');
-          } else if (!$scope.scrollingDown && isScrollingDown(scrollTop)){
+          } else if ( !scrollingDown && isScrollingDown(scrollTop) ){
             scrollingDown = true;
             $element.removeClass('scrolling-up');
             $element.addClass('scrolling-down');
@@ -84,6 +86,7 @@ angular.module('sn.smartNav', [
         };
         /**
          * Calulate if the user has scrolled beyond the height of the element
+         * @private
          * @method calMinimisedMode
          * @param  {Number}  scrollTop
          */
@@ -98,6 +101,7 @@ angular.module('sn.smartNav', [
          * window `scroll` event handler.
          * Gets the current scroll postion and calulates
          * scroll direction and whether to enable minimise mode
+         * @private
          * @method onScroll
          */
         var onScroll = function onScroll() {
@@ -111,7 +115,7 @@ angular.module('sn.smartNav', [
           lastScrollTop = scrollTop;
         };
 
-        angular.element($window).on('scroll.erHeader', onScroll);
+        angular.element($window).on('scroll.snSmartNav', onScroll);
       }
     };
   }
