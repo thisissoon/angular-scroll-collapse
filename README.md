@@ -231,7 +231,6 @@ Once you have ensured that the development web server hosting our application is
 and WebDriver is updated, you can run the end-to-end tests using the supplied grunt task:
 
 ```
-nohup webdriver-manager start &
 grunt e2e
 ```
 

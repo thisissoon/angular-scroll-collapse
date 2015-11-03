@@ -29,11 +29,11 @@ describe('sn.smartNav', function (){
 
   it('should add "scrolling-down" class', function(){
     $document[0].body.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('scrolling-down')).toBe(false);
 
     $document[0].body.scrollTop = 100;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('scrolling-down')).toBe(true);
   });
 
@@ -44,24 +44,24 @@ describe('sn.smartNav', function (){
     $document[0].body = undefined;
 
     $document[0].documentElement.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
 
     $document[0].documentElement.scrollTop = 100;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('scrolling-up')).toBe(false);
 
     $document[0].documentElement.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('scrolling-up')).toBe(true);
   });
 
   it('should add "minimised-mode" class', function(){
     $document[0].body.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('minimised-mode')).toBe(false);
 
     $document[0].body.scrollTop = 200;
-    angular.element($window).triggerHandler('scroll.snSmartNav');
+    angular.element($window).triggerHandler('scroll');
     expect(element.hasClass('minimised-mode')).toBe(true);
   });
 

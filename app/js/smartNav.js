@@ -115,7 +115,7 @@ angular.module('sn.smartNav', [
           lastScrollTop = scrollTop;
         };
 
-        angular.element($window).on('scroll.snSmartNav', onScroll);
+        angular.element($window).on('scroll', onScroll);
       }
     };
   }

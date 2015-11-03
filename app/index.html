@@ -21,10 +21,6 @@
   <base href="/app/">
   <!-- /build -->
 
-  <!-- build:css css/all.min.css -->
-  <link rel="stylesheet" href="css/all.css">
-  <!-- /build -->
-
   <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/apple-icon-72x72.png">
@@ -43,10 +39,33 @@
   <meta name="msapplication-TileImage" content="img/favicons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
+  <style>
+    body {
+      height: 10000px;
+    }
+
+    nav {
+      background-color: #e7e7e7;
+      height: 100px;
+      text-align: center;
+    }
+
+    nav > li {
+      display: inline-block;
+      line-height: 60px;
+      padding: 20px;
+    }
+  </style>
+
 </head>
 <body>
 
-  <ng-view></ng-view>
+  <nav sn-smart-nav>
+    <li><a href="#">Item 1</a></li>
+    <li><a href="#">Item 2</a></li>
+    <li><a href="#">Item 3</a></li>
+    <li><a href="#">Item 4</a></li>
+  </nav>
 
   <!--[if lt IE 8]>
     <p>Your browser is <strong>ancient</strong> and will not work with this site. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -62,20 +81,22 @@
   </script>
 
   <!--[if gte IE 8]><!-->
-  <!-- build:js js/app.min.js -->
 
   <!--from scripts.json-->
   <!--VENDOR SCRIPTS-->
   <script src="components/angular/angular.js"></script>
   <!--VENDOR SCRIPTS END-->
 
-  <script src="js/config/config.js"></script>
-
+  <!-- build:js angular-smart-nav.min.js -->
   <!--SCRIPTS-->
   <script src="js/smartNav.js"></script>
   <!--SCRIPTS END-->
   <!-- /build -->
   <!--<![endif]-->
+
+  <script>
+    var app = angular.module('myApp', ['sn.smartNav']);
+  </script>
 
   <!-- build:js:e2e inline components/angular-mocks/angular-mocks.js -->
   <!-- /build -->
