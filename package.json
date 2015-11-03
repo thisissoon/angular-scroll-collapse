@@ -29,6 +29,7 @@
     "grunt-ng-constant": "~1.1.0",
     "grunt-processhtml": "~0.3.7",
     "grunt-protractor-runner": "~2.1.0",
+    "grunt-protractor-webdriver": "~0.2.5",
     "grunt-sails-linker": "~0.10.1",
     "grunt-template-jasmine-istanbul": "~0.3.3",
     "protractor": "~2.5.1",
