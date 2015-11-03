@@ -7,6 +7,60 @@
 
 Show or hide a navbar when scrolling in any particular direction and or minimise nav when scrolling pass the navbar
 
+## Install
+
+You can install this module using [bower][bower] like so:
+
+```
+bower install angular-smart-nav --save
+```
+
+Add the angular-smart-nav library file to your `index.html` file like so:
+
+```html
+<script src="path/to/angular-smart-nav/dist/angular-smart-nav.min.js"></script>
+```
+
+Then add the module to your angular app:
+
+```javascript
+angular.module('myApp', ['sn.smartNav']);
+```
+
+## Example Usage
+
+In your html simply add the directive to your nav:
+
+```html
+<nav sn-smart-nav>
+  <li><a href="#">Item 1</a></li>
+  <li><a href="#">Item 2</a></li>
+  <li><a href="#">Item 3</a></li>
+  <li><a href="#">Item 4</a></li>
+</nav>
+```
+
+The directive will add the following classes to your nav:
+- `scrolling-down`: when the user is scrolling down the page
+- `scrolling-up`: when the user is scrolling up the page
+- `minimised-mode`: when the user has scrolled beyond the height of the nav
+
+You still have to add your own custom styling to the nav to hide, show or minimise the navbar. The following will hide the nav when scrolling down and display it again when scrolling up:
+
+```css
+nav {
+  opacity: 1;
+  transition: opacity .4s ease-in-out .4s;
+}
+nav.scrolling-down {
+  opacity: 0;
+}
+nav.scrolling-up {
+  opacity: 0;
+}
+```
+
+
 This project structure is based on the [angular-start](https://github.com/thisissoon/angular-start
 ) application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
 
