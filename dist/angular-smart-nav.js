@@ -1,4 +1,4 @@
-/*! angular-smart-nav - v0.0.1 - 2015-11-03 */
+/*! angular-smart-nav - v0.0.2 - 2015-11-03 */
 'use strict';
 /**
  * Module that detects the last scroll direction and
@@ -121,5 +121,3 @@ angular.module('sn.smartNav', [
     };
   }
 ]);
-
-//# sourceMappingURL=angular-smart-nav.js.map
