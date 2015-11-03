@@ -1,9 +1,9 @@
 # Angular Smart Nav
 
-<!-- [![Build Status](https://travis-ci.org/thisissoon/angular-start.svg?branch=master)](https://travis-ci.org/thisissoon/angular-start)
-[![Coverage Status](https://coveralls.io/repos/thisissoon/angular-start/badge.svg)](https://coveralls.io/r/thisissoon/angular-start)
+[![Build Status](https://travis-ci.org/thisissoon/angular-smart-nav.svg?branch=master)](https://travis-ci.org/thisissoon/angular-smart-nav)
+[![Coverage Status](https://coveralls.io/repos/thisissoon/angular-smart-nav/badge.svg)](https://coveralls.io/r/thisissoon/angular-smart-nav)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/angular-start.svg)](https://saucelabs.com/u/angular-start) -->
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/angular-smart-nav.svg)](https://saucelabs.com/u/angular-smart-nav)
 
 Show or hide a navbar when scrolling in any particular direction and or minimise nav when scrolling pass the navbar
 
