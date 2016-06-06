@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "6.1"
 env:
   global:
     - secure: h8dx7ZK94tKsp965RwL+PjUfoOcgiGYSKnwyRGPnK4Acjgl+UhhdtOW0SkgjRW2PLr2Umpfi8jKGoS3cJCiLL4vQvDmPJ6xS3BmVYWImVJwt2vCShDc6O1z82ebUE5F9QagBapYFOG3r8dOUqEYKsL+9WLsGRckLQpvQCo0EIt948UoqoVosKKD7ALaPHKeYCeAiRthCiWrN7jTnTm5U92bLtiMIZEBZrVzHpFxnUA33TIFgnkeSCyf5sO/iwjRrGO3IEXyVOKisjzXkug/ODjVXH33M5IJl7sZ+R2ZGtCQHh0CZNDI6oyAhzz9QaItA0V1YtzvbcdyAzPsP2a2izM6EgQGsnVEm2A5BzIdo4AtUalHxssf4e9kerE8cDDKruEZhNVP5lZ8wxP5Dw9Tl704AUCDDzqJZFnf8/wwg+Vyc6+hHj5TBw5vPmoNy/yBQ9GnAYvrBUba5NJ+4aDYtxzn9Qq5JuckUiQsfKUGdYNKC/wFg0U1NR+7RA0WBnp0NyTyaGtKe6oRydIaXGX1km5aqNDIgsEqMzpZULRIHfJiOF3MIVOoZesvx/14amHpuB60XxUwVUhqjRMRQ6Fmy0gjQheTVK5LTPDJxl6vMB6wXe7F6sjeO21XlZkv5oVwgzg1p+TIgrQ7dVS+fFcCnBy8ncwF6RXVr2opZtU3i76A=
@@ -10,10 +10,11 @@ before_install:
   - webdriver-manager update
 install:
   - npm install
+  - bower install
 script:
   - grunt test:development
-  - grunt test
-  - grunt e2e --ci
+  - grunt test:production
+  - grunt test:e2e --ci
 after_success:
   - ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
 addons:
