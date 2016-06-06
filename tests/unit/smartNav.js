@@ -2,67 +2,121 @@
 
 describe('sn.smartNav', function (){
 
-  var element, $scope, $rootScope, $document, $window;
+  var element, $scope, $rootScope, $document, $window, isolatedScope;
 
   beforeEach(module('sn.smartNav'));
 
-  beforeEach(inject(function (_$rootScope_, $compile, $injector) {
-    $rootScope = _$rootScope_;
+  describe('element at top of page', function (){
 
-    $scope = $rootScope.$new();
+    beforeEach(inject(function (_$rootScope_, $compile, $injector) {
+      $rootScope = _$rootScope_;
 
-    $window = $injector.get('$window');
+      $scope = $rootScope.$new();
 
-    $document = $injector.get('$document');
-    $document[0] = {
-      body: {
-        scrollTop: 0
+      $window = $injector.get('$window');
+
+      $document = $injector.get('$document');
+      $document[0] = {
+        body: {
+          scrollTop: 0
+        }
       }
-    }
 
-    element = '<nav sn-smart-nav style="height: 160px"></nav>';
+      element = '<nav sn-smart-nav style="height: 160px"></nav>';
 
-    element = $compile(element)($scope);
-    $scope.$digest();
+      element = $compile(element)($scope);
+      $scope.$digest();
 
-  }));
+      isolatedScope = element.isolateScope();
 
-  it('should add "scrolling-down" class', function(){
-    $document[0].body.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('scrolling-down')).toBe(false);
+    }));
 
-    $document[0].body.scrollTop = 100;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('scrolling-down')).toBe(true);
+    afterEach(function(){
+      $rootScope.$broadcast('$destroy');
+    });
+
+    it('should add "scrolling-down" class', function(){
+      $document[0].body.scrollTop = 0;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('scrolling-down')).toBe(false);
+
+      $document[0].body.scrollTop = 100;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('scrolling-down')).toBe(true);
+    });
+
+    it('should add "scrolling-up" class', function(){
+      $document[0].documentElement = {
+        scrollTop: 0
+      };
+      $document[0].body = undefined;
+
+      $document[0].documentElement.scrollTop = 0;
+      angular.element($window).triggerHandler('scroll');
+
+      $document[0].documentElement.scrollTop = 100;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('scrolling-up')).toBe(false);
+
+      $document[0].documentElement.scrollTop = 0;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('scrolling-up')).toBe(true);
+    });
+
+    it('should add "minimised-mode" class', function(){
+      $document[0].body.scrollTop = 0;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('minimised-mode')).toBe(false);
+
+      $document[0].body.scrollTop = 200;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('minimised-mode')).toBe(true);
+    });
+
   });
 
-  it('should add "scrolling-up" class', function(){
-    $document[0].documentElement = {
-      scrollTop: 0
-    };
-    $document[0].body = undefined;
+  describe('element not at top of page', function (){
 
-    $document[0].documentElement.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll');
+    beforeEach(inject(function (_$rootScope_, $compile, $injector) {
+      $rootScope = _$rootScope_;
 
-    $document[0].documentElement.scrollTop = 100;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('scrolling-up')).toBe(false);
+      $scope = $rootScope.$new();
 
-    $document[0].documentElement.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('scrolling-up')).toBe(true);
+      $window = $injector.get('$window');
+
+      $document = $injector.get('$document');
+      $document[0] = {
+        body: {
+          scrollTop: 0
+        }
+      }
+
+      element = '<nav sn-smart-nav style="height: 160px; margin-top: 200px;"></nav>';
+
+      element = $compile(element)($scope);
+      $scope.$digest();
+
+    }));
+
+    it('should add "affix" class', function(){
+      element[0].getBoundingClientRect = function(){
+        return {
+          top: 100
+        }
+      };
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('affix')).toBe(false);
+
+      element[0].getBoundingClientRect = function(){
+        return {
+          top: -200
+        }
+      };
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('affix')).toBe(true);
+    });
+
   });
 
-  it('should add "minimised-mode" class', function(){
-    $document[0].body.scrollTop = 0;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('minimised-mode')).toBe(false);
-
-    $document[0].body.scrollTop = 200;
-    angular.element($window).triggerHandler('scroll');
-    expect(element.hasClass('minimised-mode')).toBe(true);
-  });
 
 });

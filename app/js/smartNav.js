@@ -90,9 +90,8 @@ angular.module('sn.smartNav', [
          * @method calMinimisedMode
          * @param  {Number}  scrollTop
          */
-        var calMinimisedMode = function calMinimisedMode(){
-          var positionFromTop = $element[0].getBoundingClientRect().top;
-          if (positionFromTop <= 0 ) {
+        var calMinimisedMode = function calMinimisedMode(scrollTop){
+          if (scrollTop > $element[0].offsetHeight) {
             $element.addClass('minimised-mode');
           } else {
             $element.removeClass('minimised-mode');
@@ -125,7 +124,7 @@ angular.module('sn.smartNav', [
               scrollTop = ( (doc && doc.scrollTop) || (body && body.scrollTop) || 0 );
 
           calScrollDir(scrollTop);
-          calMinimisedMode();
+          calMinimisedMode(scrollTop);
           calAffixedMode();
 
           lastScrollTop = scrollTop;
