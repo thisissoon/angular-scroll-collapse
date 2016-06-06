@@ -90,11 +90,26 @@ angular.module('sn.smartNav', [
          * @method calMinimisedMode
          * @param  {Number}  scrollTop
          */
-        var calMinimisedMode = function calMinimisedMode(scrollTop){
-          if (scrollTop > $element[0].offsetHeight) {
+        var calMinimisedMode = function calMinimisedMode(){
+          var positionFromTop = $element[0].getBoundingClientRect().top;
+          if (positionFromTop <= 0 ) {
             $element.addClass('minimised-mode');
           } else {
             $element.removeClass('minimised-mode');
+          }
+        };
+        /**
+         * Calulate if the element is at top or above viewport
+         * so we can 'affix' it to top of the viewport.
+         * @private
+         * @method calAffixedMode
+         */
+        var calAffixedMode = function calAffixedMode(){
+          var positionFromTop = $element[0].getBoundingClientRect().top;
+          if (positionFromTop <= 0 ) {
+            $element.addClass('affix');
+          } else {
+            $element.removeClass('affix');
           }
         };
         /**
@@ -110,11 +125,20 @@ angular.module('sn.smartNav', [
               scrollTop = ( (doc && doc.scrollTop) || (body && body.scrollTop) || 0 );
 
           calScrollDir(scrollTop);
-          calMinimisedMode(scrollTop);
+          calMinimisedMode();
+          calAffixedMode();
 
           lastScrollTop = scrollTop;
         };
+        /**
+         * Clear event listeners
+         * @method onDestroy
+         */
+        var onDestroy = function onDestroy(){
+          angular.element($window).off('scroll', onScroll);
+        };
 
+        $scope.$on('$destroy', onDestroy);
         angular.element($window).on('scroll', onScroll);
       }
     };
