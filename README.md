@@ -44,6 +44,7 @@ The directive will add the following classes to your nav:
 - `scrolling-down`: when the user is scrolling down the page
 - `scrolling-up`: when the user is scrolling up the page
 - `minimised-mode`: when the user has scrolled beyond the height of the nav
+- `affix`: If the element is at the top of the viewport or above it then the class `affix` will be added
 
 You still have to add your own custom styling to the nav to hide, show or minimise the navbar. The following will hide the nav when scrolling down and display it again when scrolling up:
 
@@ -73,12 +74,12 @@ To get you started you can simply clone the repository and install the dependenc
 
 ### Clone the Angular Smart Nav repository
 
-Clone the angular-start repository using [git][git]:
+Clone the angular-smart-nav repository using [git][git]:
 
 ```
 cd path/to/parent/directory
-git clone git@github.com:thisissoon/angular-start.git
-cd angular-start
+git clone git@github.com:thisissoon/angular-smart-nav.git
+cd angular-smart-nav
 ```
 
 
@@ -94,14 +95,14 @@ We have two kinds of dependencies in this project: tools and angular framework c
 The following tools require super user privileges so you will need to install them separately like so:
 
 ```
-sudo npm install -g bower 
-sudo npm install -g grunt-cli
+sudo npm install -g bower grunt-cli
 ```
 
-We have preconfigured `npm` to automatically run `bower` so we can simply do:
+Then install all tooling and libraries:
 
 ```
 npm install
+bower install
 ```
 
 Behind the scenes this will also call `bower install`.  You should find that you have two new
@@ -134,7 +135,7 @@ And this will download the bootstrap package from bower and also update the `bow
 
 ### Run the Application
 
-We have preconfigured the project with a simple development web server.  The simplest way to start
+We have preconfigured the project with a simple development web server. The simplest way to start
 this server is:
 
 ```
@@ -143,25 +144,11 @@ grunt server
 
 Now browse to the app at `http://localhost:8000/app/`.
 
-If you are doing any javascript development you can instead run:
-
-```
-grunt serverjs
-```
-
-To run tests as well every time a javascript file is updated
-
-To watch all files run:
-
-```
-grunt serverall
-```
-
-To run tests or compile less to css when the relevent files are updated. 
+This command will watch all source files and run tests every time a javascript file is updated, compile less when a less file is updated and lint js/html/less files when they are updated.
 
 ### Running the build script
 
-To create a build to deploy for a production environment simply run: 
+To create a build to deploy for a production environment simply run:
 
 ```
 grunt build -env production
@@ -171,13 +158,13 @@ The build files will then be in the `dist/` directory.
 
 ### Creating a new release
 
-To create a new release simply run: 
+To create a new release simply run:
 
 ```
 grunt release --setversion X.Y.Z
 ```
 
-Where `X.Y.Z` is the new version number. This will update `package.json` 
+Where `X.Y.Z` is the new version number. This will update `package.json`
 and `bower.json` with the new version number and then run `grunt build` before
 committing the changes to git.
 
@@ -190,52 +177,20 @@ The build files will then be in the `dist/` directory.
 
 app/                    --> all of the files to be used in production
   components/           --> all of our javascript libraries (installed using bower)
-  css/                  --> css files
-    app.css             --> default stylesheet (generated using less)
-  img/                  --> image files
-  less/                 --> less folder
-    default/            --> styling applied to all screen sizes (e.g. fonts, colors etc..)
-      core/             --> core styling applied to all screen sizes 
-      modules/          --> module styling applied to all screen sizes
-    large/              --> styling applied to large screen screen sizes (overrides styling in default folder)
-      core/             --> core styling applied to large screen screen sizes
-      modules/          --> module styling applied to large screen screen sizes 
-    tablet/             --> styling applied to tablet screen sizes (overrides styling in default folder)
-      core/             --> core styling applied to tablet screens 
-      modules/          --> module styling applied to tablet screens
-    mobile/             --> styling applied to mobile screen sizes (overrides styling in default folder)
-      core/             --> core styling applied to mobile screens 
-      modules/          --> module styling applied to mobile screens  
   index.html            --> app layout file (the main html template file of the app)
   js/                   --> javascript files
-    {app}/              --> angular module javascript files
-      {app}.js          --> angular module initialisation
-      config.js         --> angular module config
-      controllers/      --> controllers
-        {view}Ctrl.js   
-      directives/       --> directives
-        {module}.js     
-    partials/           --> angular view partials (partial html templates)
-      partial1.html
-      partial2.html
-modules/                --> static html files for building and testing styling and mark up
-  {module}/
-    index.html
+    {app}.js            --> angular module
 tests/                  --> test config and source files
   e2e/                  --> end-to-end specs
-    specs/              
+    specs/
       scenarios.js
     protractor.conf.js  --> config file for running e2e tests with Protractor
   unit/                 --> unit level specs/tests
     {app}/              --> follows the same folder structure as javascript files in app folder
-      controllers/      --> controller folder
-        {view}Ctrl.js   --> view controller tests
-      directives/
-        {module}.js     --> module directive test
 
 ```
 
-## Testing
+### Testing
 
 There are two kinds of tests in the angular-seed application: Unit tests and End to End tests.
 
@@ -250,17 +205,17 @@ The angular-seed app comes preconfigured with unit tests. These are written in
 The easiest way to run the unit tests is to do:
 
 ```
-grunt test
+grunt test:unit:development
 ```
 
 This script will start the Jasmine test runner to execute the unit tests. You can also run:
 
 ```
-grunt serverjs
+grunt server
 ```
 
 Where the grunt watch command will sit and watch the source and test files for changes and then re-run the tests whenever any of them change.
-This is the recommended strategy; if you unit tests are being run every time you save a file then
+This is the recommended strategy; if your unit tests are being run every time you save a file then
 you receive instant feedback on any changes that break the expected code functionality.
 
 
@@ -278,37 +233,19 @@ correctly. Therefore, our web server needs to be serving up the application, so 
 can interact with it. To run end to end tests we first need to install protractor with global permissions. You may need to run this command with superuser privileges:
 
 ```
-npm install -g protractor && webdriver-manager update
+npm install -g protractor
+webdriver-manager update
 ```
 
 Once you have ensured that the development web server hosting our application is up and running
 and WebDriver is updated, you can run the end-to-end tests using the supplied grunt task:
 
 ```
-grunt e2e
+grunt test:e2e
 ```
 
 Behind the scenes this will also run `webdriver-manager update && webdriver-manager start`. This will download and install the latest version of the stand-alone WebDriver tool and start the Selenium web server. This script will execute the end-to-end tests against the application being hosted on the
 development server.
-
-
-### Docker
-
-Angular Smart Nav can be run under docker to ease portability. This section will describe how to get the application up and running under docker.
-
-Once you have docker running the first thing to do is pull the docker image.
-
-    $ docker pull soon/angular-start
-
-#### Building the Docker Image
-
-To build the image locally run:
-
-    $ docker build -t soon/angular-start .
-
-#### Running the Application
-
-    $ docker run --rm -it soon/angular-start
 
 
 ## Contact
@@ -322,6 +259,4 @@ For more information on AngularJS please check out http://angularjs.org/
 [node]: http://nodejs.org
 [protractor]: https://github.com/angular/protractor
 [jasmine]: http://pivotal.github.com/jasmine/
-[karma]: http://karma-runner.github.io
 [travis]: https://travis-ci.org/
-[http-server]: https://github.com/nodeapps/http-server

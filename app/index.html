@@ -42,25 +42,36 @@
   <style>
     body {
       height: 10000px;
+      margin: 0;
+      padding: 0;
     }
 
     nav {
       background-color: #e7e7e7;
       height: 100px;
+      overflow: hidden;
       text-align: center;
+      white-space: nowrap;
     }
 
     nav > li {
       display: inline-block;
       line-height: 60px;
-      padding: 20px;
+      padding: 20px 5px;
     }
   </style>
 
 </head>
 <body>
 
-  <nav sn-smart-nav>
+  <nav class="first" sn-smart-nav>
+    <li><a href="#">Item 1</a></li>
+    <li><a href="#">Item 2</a></li>
+    <li><a href="#">Item 3</a></li>
+    <li><a href="#">Item 4</a></li>
+  </nav>
+
+  <nav class="second" sn-smart-nav>
     <li><a href="#">Item 1</a></li>
     <li><a href="#">Item 2</a></li>
     <li><a href="#">Item 3</a></li>
@@ -98,10 +109,8 @@
     var app = angular.module('myApp', ['sn.smartNav']);
   </script>
 
-  <!-- build:js:e2e inline components/angular-mocks/angular-mocks.js -->
-  <!-- /build -->
-  <!-- build:js:e2e inline ../tests/e2e/app.e2e.js -->
-  <!-- /build -->
+  <!-- build:js:e2e inline components/angular-mocks/angular-mocks.js --><!-- /build -->
+  <!-- build:js:e2e inline ../tests/e2e/app.e2e.js --><!-- /build -->
 
 </body>
 
