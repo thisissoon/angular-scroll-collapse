@@ -67,14 +67,12 @@ exports.config = {
     'appiumVersion': '1.4.11',
     'deviceOrientation': 'portrait'
   },{
-    'browserName': 'Safari',
+    'browserName': 'iphone',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name':  pkg.name + ' (Safari: iOS 8.2) Build: ' + process.env.TRAVIS_BUILD_NUMBER,
-    'platformVersion': '8.2',
-    'platformName': 'iOS',
+    'name':  pkg.name + ' (Safari: iOS) Build: ' + process.env.TRAVIS_BUILD_NUMBER,
+    'platform': 'OS X 10.10',
     'deviceName': 'iPhone 6',
-    'appiumVersion': '1.3.7',
     'deviceOrientation': 'portrait'
   }],
 

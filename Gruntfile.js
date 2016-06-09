@@ -254,6 +254,16 @@ module.exports = function (grunt) {
           cwd: './app/data',
           src: ['**/*', '*'],
           dest: '<%= config.outputDir %>data/'
+        }],
+      },
+      e2e: {
+        files: [{
+          expand: true,
+          src: ['<%= config.vendorFiles %>'],
+          dest: '<%= config.outputDir %>',
+          rename: function(dest, src) {
+            return dest + src.replace('app/','');
+          }
         }]
       }
     },
@@ -440,13 +450,16 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test:e2e', [
-    'uglify',
+    'clean:dist',
     'less:production',
+    'ngconstant',
+    'minify',
     'copy',
     'processhtml:e2e',
     'connect:servertest',
     'protractor_webdriver',
-    'protractor:dist'
+    'protractor:dist',
+    'clean:dist'
   ]);
 
   grunt.registerTask('default', ['build']);
