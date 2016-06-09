@@ -1,3 +1,4 @@
+/*! angular-smart-nav - v0.0.2 - 2015-11-03 */
 'use strict';
 /**
  * Module that detects the last scroll direction and
@@ -12,10 +13,6 @@
  * `scrolling-down` will be added, when scrolling up
  * `scrolling-up`. If the user has scrolled beyond the
  * height of the nav the class `minimised-mode`.
- *
- * If the element is at the top of the viewport or above
- * it then the class `affix` will be added. This is useful
- * for making an element sticky when user has scrolled to it
  *
  * @module   sn.smartNav
  * @main     sn.smartNav
@@ -102,20 +99,6 @@ angular.module('sn.smartNav', [
           }
         };
         /**
-         * Calulate if the element is at top or above viewport
-         * so we can 'affix' it to top of the viewport.
-         * @private
-         * @method calAffixedMode
-         */
-        var calAffixedMode = function calAffixedMode(){
-          var positionFromTop = $element[0].getBoundingClientRect().top;
-          if (positionFromTop <= 0 ) {
-            $element.addClass('affix');
-          } else {
-            $element.removeClass('affix');
-          }
-        };
-        /**
          * window `scroll` event handler.
          * Gets the current scroll postion and calulates
          * scroll direction and whether to enable minimise mode
@@ -129,19 +112,10 @@ angular.module('sn.smartNav', [
 
           calScrollDir(scrollTop);
           calMinimisedMode(scrollTop);
-          calAffixedMode();
 
           lastScrollTop = scrollTop;
         };
-        /**
-         * Clear event listeners
-         * @method onDestroy
-         */
-        var onDestroy = function onDestroy(){
-          angular.element($window).off('scroll', onScroll);
-        };
 
-        $scope.$on('$destroy', onDestroy);
         angular.element($window).on('scroll', onScroll);
       }
     };

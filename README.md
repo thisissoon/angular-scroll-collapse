@@ -44,6 +44,7 @@ The directive will add the following classes to your nav:
 - `scrolling-down`: when the user is scrolling down the page
 - `scrolling-up`: when the user is scrolling up the page
 - `minimised-mode`: when the user has scrolled beyond the height of the nav
+- `affix`: If the element is at the top of the viewport or above it then the class `affix` will be added
 
 You still have to add your own custom styling to the nav to hide, show or minimise the navbar. The following will hide the nav when scrolling down and display it again when scrolling up:
 
@@ -63,11 +64,6 @@ nav.scrolling-up {
 
 This project structure is based on the [angular-start](https://github.com/thisissoon/angular-start
 ) application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-
-The project is preconfigured to install the Angular framework and a bunch of development and testing tools for instant web development gratification.
-
-
-This project structure is based on the [angular-start](https://github.com/angular/angular-start) application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
 
 The project is preconfigured to install the Angular framework and a bunch of development and testing tools for instant web development gratification.
 
@@ -99,14 +95,14 @@ We have two kinds of dependencies in this project: tools and angular framework c
 The following tools require super user privileges so you will need to install them separately like so:
 
 ```
-sudo npm install -g bower
-sudo npm install -g grunt-cli
+sudo npm install -g bower grunt-cli
 ```
 
-We have preconfigured `npm` to automatically run `bower` so we can simply do:
+Then install all tooling and libraries:
 
 ```
 npm install
+bower install
 ```
 
 Behind the scenes this will also call `bower install`.  You should find that you have two new
@@ -183,16 +179,7 @@ app/                    --> all of the files to be used in production
   components/           --> all of our javascript libraries (installed using bower)
   index.html            --> app layout file (the main html template file of the app)
   js/                   --> javascript files
-    {app}/              --> angular module javascript files
-      {app}.js          --> angular module initialisation
-      config.js         --> angular module config
-      controllers/      --> controllers
-        {view}Ctrl.js
-      directives/       --> directives
-        {module}.js
-    partials/           --> angular view partials (partial html templates)
-      partial1.html
-      partial2.html
+    {app}.js            --> angular module
 tests/                  --> test config and source files
   e2e/                  --> end-to-end specs
     specs/
@@ -200,14 +187,10 @@ tests/                  --> test config and source files
     protractor.conf.js  --> config file for running e2e tests with Protractor
   unit/                 --> unit level specs/tests
     {app}/              --> follows the same folder structure as javascript files in app folder
-      controllers/      --> controller folder
-        {view}Ctrl.js   --> view controller tests
-      directives/
-        {module}.js     --> module directive test
 
 ```
 
-## Testing
+### Testing
 
 There are two kinds of tests in the angular-seed application: Unit tests and End to End tests.
 
@@ -250,7 +233,8 @@ correctly. Therefore, our web server needs to be serving up the application, so 
 can interact with it. To run end to end tests we first need to install protractor with global permissions. You may need to run this command with superuser privileges:
 
 ```
-npm install -g protractor && webdriver-manager update
+npm install -g protractor
+webdriver-manager update
 ```
 
 Once you have ensured that the development web server hosting our application is up and running
