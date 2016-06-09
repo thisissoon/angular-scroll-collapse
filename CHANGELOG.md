@@ -1,3 +1,7 @@
+## Changes in 0.1.0
+
+ * @edwardoparearyee: Feature: add affix mode (#6)
+
 ## Changes in 0.0.2
 
  * @edwardoparearyee: Fix: Error in docs (#4)
