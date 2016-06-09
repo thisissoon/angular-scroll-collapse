@@ -12,8 +12,8 @@ install:
   - npm install
   - bower install
 script:
-  - grunt test:development
-  - grunt test:production
+  - grunt test:unit:development
+  - grunt test:unit:production
   - grunt test:e2e --ci
 after_success:
   - ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info

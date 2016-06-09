@@ -20,7 +20,7 @@ exports.config = {
   ],
 
   // Saucelabs capabilities reference
-  // https://docs.saucelabs.com/reference/platforms-configurator/#/
+  // https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
   multiCapabilities: [{
     'browserName': 'chrome',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
@@ -64,15 +64,18 @@ exports.config = {
     'platformName': 'Android',
     'platformVersion': '5.1',
     'deviceName': 'Android Emulator',
-    'appiumVersion': '1.4.11',
+    'deviceType': 'phone',
+    'appiumVersion': '1.5.2',
     'deviceOrientation': 'portrait'
   },{
-    'browserName': 'iphone',
+    'browserName': 'Safari',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name':  pkg.name + ' (Safari: iOS) Build: ' + process.env.TRAVIS_BUILD_NUMBER,
-    'platform': 'OS X 10.10',
+    'name':  pkg.name + ' (Safari: iOS 9.2) Build: ' + process.env.TRAVIS_BUILD_NUMBER,
+    'platformVersion': '9.2',
+    'platformName': 'iOS',
     'deviceName': 'iPhone 6',
+    'appiumVersion': '1.5.2',
     'deviceOrientation': 'portrait'
   }],
 
