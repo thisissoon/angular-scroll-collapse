@@ -71,6 +71,11 @@ describe('sn.smartNav', function() {
       browser.executeScript('scrollTo(0,300)');
       browser.driver.sleep(2000);
       expect(secondNav.getAttribute('class')).toContain('affix');
+
+      browser.executeScript('scrollTo(0,0)');
+      browser.driver.sleep(2000);
+      expect(secondNav.getAttribute('class')).not.toContain('affix');
+
     });
 
   });
