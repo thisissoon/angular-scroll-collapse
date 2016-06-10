@@ -37,7 +37,6 @@ angular.module('sn.smartNav', [
   function ($window, $document){
     return {
       restrict: 'A',
-      scope: {},
       link: function($scope, $element){
         /**
          * The last recorded scrollTop position
