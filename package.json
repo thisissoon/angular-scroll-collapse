@@ -1,7 +1,7 @@
 {
   "name": "angular-smart-nav",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Show or hide a navbar when scrolling in any particular direction and or minimise nav when scrolling pass the navbar",
   "repository": "https://github.com/thisissoon/angular-smart-nav",
   "license": "MIT",
