@@ -2,7 +2,7 @@
 
 describe('sn.smartNav', function (){
 
-  var element, $scope, $rootScope, $document, $window;
+  var element, $scope, $rootScope, $document, $window, SN_SMART_NAV_CLASSES;
 
   beforeEach(module('sn.smartNav'));
 
@@ -20,7 +20,9 @@ describe('sn.smartNav', function (){
         body: {
           scrollTop: 0
         }
-      }
+      };
+
+      SN_SMART_NAV_CLASSES = $injector.get('SN_SMART_NAV_CLASSES');
 
       element = '<nav sn-smart-nav style="height: 160px"></nav>';
 
@@ -36,11 +38,11 @@ describe('sn.smartNav', function (){
     it('should add "scrolling-down" class', function(){
       $document[0].body.scrollTop = 0;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('scrolling-down')).toBe(false);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.scrollingDown)).toBe(false);
 
       $document[0].body.scrollTop = 100;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('scrolling-down')).toBe(true);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.scrollingDown)).toBe(true);
     });
 
     it('should add "scrolling-up" class', function(){
@@ -54,21 +56,21 @@ describe('sn.smartNav', function (){
 
       $document[0].documentElement.scrollTop = 100;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('scrolling-up')).toBe(false);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.scrollingUp)).toBe(false);
 
       $document[0].documentElement.scrollTop = 0;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('scrolling-up')).toBe(true);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.scrollingUp)).toBe(true);
     });
 
     it('should add "minimised-mode" class', function(){
       $document[0].body.scrollTop = 0;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('minimised-mode')).toBe(false);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.minimise)).toBe(false);
 
       $document[0].body.scrollTop = 200;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('minimised-mode')).toBe(true);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.minimise)).toBe(true);
     });
 
   });
@@ -99,15 +101,15 @@ describe('sn.smartNav', function (){
     it('should add "affix" class', function(){
       $document[0].documentElement.scrollTop = -250;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('affix')).toBe(false);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.affix)).toBe(false);
 
       $document[0].documentElement.scrollTop = 0;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('affix')).toBe(true);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.affix)).toBe(true);
 
       $document[0].documentElement.scrollTop = 250;
       angular.element($window).triggerHandler('scroll');
-      expect(element.hasClass('affix')).toBe(true);
+      expect(element.hasClass(SN_SMART_NAV_CLASSES.affix)).toBe(true);
     });
 
   });

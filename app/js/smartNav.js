@@ -25,16 +25,28 @@ angular.module('sn.smartNav', [
 
 ])
 /**
+ * Contains all css class names
+ * @property {Object} SN_SMART_NAV_CLASSES
+ */
+.constant('SN_SMART_NAV_CLASSES', {
+  scrollingUp: 'sn-nav-scrolling-up',
+  scrollingDown: 'sn-nav-scrolling-down',
+  minimise: 'sn-nav-minimise',
+  affix: 'sn-nav-affix'
+})
+/**
  * @example
  *  `<nav sn-smart-nav></nav>`
  * @class   snSmartNav
  * @param   {Service} $window   : Angular.js wrapper for window Object
  * @param   {Service} $document : Angular.js wrapper for document Object
+ * @param   {Object}  SN_SMART_NAV_CLASSES : Angular.js wrapper for document Object
  */
 .directive('snSmartNav',[
   '$window',
   '$document',
-  function ($window, $document){
+  'SN_SMART_NAV_CLASSES',
+  function ($window, $document, SN_SMART_NAV_CLASSES){
     return {
       restrict: 'A',
       link: function($scope, $element){
@@ -96,12 +108,12 @@ angular.module('sn.smartNav', [
         var calScrollDir = function calScrollDir(scrollTop){
           if ( scrollingDown && isScrollingUp(scrollTop) ) {
             scrollingDown = false;
-            $element.removeClass('scrolling-down');
-            $element.addClass('scrolling-up');
+            $element.removeClass(SN_SMART_NAV_CLASSES.scrollingDown);
+            $element.addClass(SN_SMART_NAV_CLASSES.scrollingUp);
           } else if ( !scrollingDown && isScrollingDown(scrollTop) ){
             scrollingDown = true;
-            $element.removeClass('scrolling-up');
-            $element.addClass('scrolling-down');
+            $element.removeClass(SN_SMART_NAV_CLASSES.scrollingUp);
+            $element.addClass(SN_SMART_NAV_CLASSES.scrollingDown);
           }
         };
         /**
@@ -112,9 +124,9 @@ angular.module('sn.smartNav', [
          */
         var calMinimisedMode = function calMinimisedMode(scrollTop){
           if (scrollTop > $element[0].offsetHeight) {
-            $element.addClass('minimised-mode');
+            $element.addClass(SN_SMART_NAV_CLASSES.minimise);
           } else {
-            $element.removeClass('minimised-mode');
+            $element.removeClass(SN_SMART_NAV_CLASSES.minimise);
           }
         };
         /**
@@ -125,9 +137,9 @@ angular.module('sn.smartNav', [
          */
         var calAffixedMode = function calAffixedMode(scrollTop){
           if (scrollTop >= positionFromTop ) {
-            $element.addClass('affix');
+            $element.addClass(SN_SMART_NAV_CLASSES.affix);
           } else {
-            $element.removeClass('affix');
+            $element.removeClass(SN_SMART_NAV_CLASSES.affix);
           }
         };
         /**
