@@ -9,12 +9,12 @@
  * minimized or hidden.
  *
  * When the user has scrolled down the page the class
- * `scrolling-down` will be added, when scrolling up
- * `scrolling-up`. If the user has scrolled beyond the
- * height of the nav the class `minimised-mode`.
+ * `sn-nav-scrolling-down` will be added, when scrolling up
+ * `sn-nav-scrolling-up`. If the user has scrolled beyond the
+ * height of the nav the class `sn-nav-minimise`.
  *
  * If the element is at the top of the viewport or above
- * it then the class `affix` will be added. This is useful
+ * it then the class `sn-nav-affix` will be added. This is useful
  * for making an element sticky when user has scrolled to it
  *
  * @module   sn.smartNav

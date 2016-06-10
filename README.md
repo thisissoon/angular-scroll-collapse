@@ -41,10 +41,10 @@ In your html simply add the directive to your nav:
 ```
 
 The directive will add the following classes to your nav:
-- `scrolling-down`: when the user is scrolling down the page
-- `scrolling-up`: when the user is scrolling up the page
-- `minimised-mode`: when the user has scrolled beyond the height of the nav
-- `affix`: If the element is at the top of the viewport or above it then the class `affix` will be added
+- `sn-nav-scrolling-down`: when the user is scrolling down the page
+- `sn-nav-scrolling-up`: when the user is scrolling up the page
+- `sn-nav-minimise`: when the user has scrolled beyond the height of the nav
+- `sn-nav-affix`: If the element is at the top of the viewport or above it then the class `affix` will be added
 
 You still have to add your own custom styling to the nav to hide, show or minimise the navbar. The following will hide the nav when scrolling down and display it again when scrolling up:
 
