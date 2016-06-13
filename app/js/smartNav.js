@@ -53,6 +53,23 @@ angular.module('sn.smartNav', [
          */
         var scrollingDown = false;
         /**
+         * @method getScrollTop
+         * @returns {Number} the number of pixel from top of
+         *                   page the user has scrolled
+         */
+        var getScrollTop = function getScrollTop() {
+          var doc = $document[0].documentElement,
+              body = $document[0].body,
+              scrollTop = ( (doc && doc.scrollTop) || (body && body.scrollTop) || 0 );
+
+          return scrollTop;
+        };
+        /**
+         * The number of pixels from the top of the page
+         * @property {Number} positionFromTop
+         */
+        var positionFromTop = (getScrollTop() + $element[0].getBoundingClientRect().top);
+        /**
          * @method isScrollingDown
          * @private
          * @param  {Number}  currentScrollTop
@@ -106,9 +123,8 @@ angular.module('sn.smartNav', [
          * @private
          * @method calAffixedMode
          */
-        var calAffixedMode = function calAffixedMode(){
-          var positionFromTop = $element[0].getBoundingClientRect().top;
-          if (positionFromTop <= 0 ) {
+        var calAffixedMode = function calAffixedMode(scrollTop){
+          if (scrollTop >= positionFromTop ) {
             $element.addClass('affix');
           } else {
             $element.removeClass('affix');
@@ -122,13 +138,11 @@ angular.module('sn.smartNav', [
          * @method onScroll
          */
         var onScroll = function onScroll() {
-          var doc = $document[0].documentElement,
-              body = $document[0].body,
-              scrollTop = ( (doc && doc.scrollTop) || (body && body.scrollTop) || 0 );
+          var scrollTop = getScrollTop();
 
           calScrollDir(scrollTop);
           calMinimisedMode(scrollTop);
-          calAffixedMode();
+          calAffixedMode(scrollTop);
 
           lastScrollTop = scrollTop;
         };
@@ -142,6 +156,8 @@ angular.module('sn.smartNav', [
 
         $scope.$on('$destroy', onDestroy);
         angular.element($window).on('scroll', onScroll);
+
+        onScroll();
       }
     };
   }

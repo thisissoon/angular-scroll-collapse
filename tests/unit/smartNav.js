@@ -84,12 +84,12 @@ describe('sn.smartNav', function (){
 
       $document = $injector.get('$document');
       $document[0] = {
-        body: {
+        documentElement: {
           scrollTop: 0
         }
-      }
+      };
 
-      element = '<nav sn-smart-nav style="height: 160px; margin-top: 200px;"></nav>';
+      element = '<nav sn-smart-nav style="height: 160px; margin-top: 100px;"></nav>';
 
       element = $compile(element)($scope);
       $scope.$digest();
@@ -97,19 +97,15 @@ describe('sn.smartNav', function (){
     }));
 
     it('should add "affix" class', function(){
-      element[0].getBoundingClientRect = function(){
-        return {
-          top: 100
-        }
-      };
+      $document[0].documentElement.scrollTop = -250;
       angular.element($window).triggerHandler('scroll');
       expect(element.hasClass('affix')).toBe(false);
 
-      element[0].getBoundingClientRect = function(){
-        return {
-          top: -200
-        }
-      };
+      $document[0].documentElement.scrollTop = 0;
+      angular.element($window).triggerHandler('scroll');
+      expect(element.hasClass('affix')).toBe(true);
+
+      $document[0].documentElement.scrollTop = 250;
       angular.element($window).triggerHandler('scroll');
       expect(element.hasClass('affix')).toBe(true);
     });
