@@ -1,4 +1,4 @@
-/*! angular-smart-nav - v0.1.1 - 2016-06-13 */
+/*! angular-smart-nav - v0.2.0 - 2016-06-13 */
 'use strict';
 /**
  * Module that detects the last scroll direction and
@@ -10,12 +10,12 @@
  * minimized or hidden.
  *
  * When the user has scrolled down the page the class
- * `scrolling-down` will be added, when scrolling up
- * `scrolling-up`. If the user has scrolled beyond the
- * height of the nav the class `minimised-mode`.
+ * `sn-nav-scrolling-down` will be added, when scrolling up
+ * `sn-nav-scrolling-up`. If the user has scrolled beyond the
+ * height of the nav the class `sn-nav-minimise`.
  *
  * If the element is at the top of the viewport or above
- * it then the class `affix` will be added. This is useful
+ * it then the class `sn-nav-affix` will be added. This is useful
  * for making an element sticky when user has scrolled to it
  *
  * @module   sn.smartNav
@@ -26,16 +26,28 @@ angular.module('sn.smartNav', [
 
 ])
 /**
+ * Contains all css class names
+ * @property {Object} SN_SMART_NAV_CLASSES
+ */
+.constant('SN_SMART_NAV_CLASSES', {
+  scrollingUp: 'sn-nav-scrolling-up',
+  scrollingDown: 'sn-nav-scrolling-down',
+  minimise: 'sn-nav-minimise',
+  affix: 'sn-nav-affix'
+})
+/**
  * @example
  *  `<nav sn-smart-nav></nav>`
  * @class   snSmartNav
  * @param   {Service} $window   : Angular.js wrapper for window Object
  * @param   {Service} $document : Angular.js wrapper for document Object
+ * @param   {Object}  SN_SMART_NAV_CLASSES : Angular.js wrapper for document Object
  */
 .directive('snSmartNav',[
   '$window',
   '$document',
-  function ($window, $document){
+  'SN_SMART_NAV_CLASSES',
+  function ($window, $document, SN_SMART_NAV_CLASSES){
     return {
       restrict: 'A',
       link: function($scope, $element){
@@ -97,12 +109,12 @@ angular.module('sn.smartNav', [
         var calScrollDir = function calScrollDir(scrollTop){
           if ( scrollingDown && isScrollingUp(scrollTop) ) {
             scrollingDown = false;
-            $element.removeClass('scrolling-down');
-            $element.addClass('scrolling-up');
+            $element.removeClass(SN_SMART_NAV_CLASSES.scrollingDown);
+            $element.addClass(SN_SMART_NAV_CLASSES.scrollingUp);
           } else if ( !scrollingDown && isScrollingDown(scrollTop) ){
             scrollingDown = true;
-            $element.removeClass('scrolling-up');
-            $element.addClass('scrolling-down');
+            $element.removeClass(SN_SMART_NAV_CLASSES.scrollingUp);
+            $element.addClass(SN_SMART_NAV_CLASSES.scrollingDown);
           }
         };
         /**
@@ -113,9 +125,9 @@ angular.module('sn.smartNav', [
          */
         var calMinimisedMode = function calMinimisedMode(scrollTop){
           if (scrollTop > $element[0].offsetHeight) {
-            $element.addClass('minimised-mode');
+            $element.addClass(SN_SMART_NAV_CLASSES.minimise);
           } else {
-            $element.removeClass('minimised-mode');
+            $element.removeClass(SN_SMART_NAV_CLASSES.minimise);
           }
         };
         /**
@@ -126,9 +138,9 @@ angular.module('sn.smartNav', [
          */
         var calAffixedMode = function calAffixedMode(scrollTop){
           if (scrollTop >= positionFromTop ) {
-            $element.addClass('affix');
+            $element.addClass(SN_SMART_NAV_CLASSES.affix);
           } else {
-            $element.removeClass('affix');
+            $element.removeClass(SN_SMART_NAV_CLASSES.affix);
           }
         };
         /**
