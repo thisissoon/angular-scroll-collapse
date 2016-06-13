@@ -1,3 +1,7 @@
+## Changes in 0.2.0
+
+ * @edwardoparearyee: Feature: Prefix css class names (#10)
+
 ## Changes in 0.1.1
 
  * @edwardoparearyee: Fix: position from top (#9)
