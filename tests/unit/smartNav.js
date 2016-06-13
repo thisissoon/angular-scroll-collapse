@@ -2,7 +2,7 @@
 
 describe('sn.smartNav', function (){
 
-  var element, $scope, $rootScope, $document, $window, isolatedScope;
+  var element, $scope, $rootScope, $document, $window;
 
   beforeEach(module('sn.smartNav'));
 
@@ -26,8 +26,6 @@ describe('sn.smartNav', function (){
 
       element = $compile(element)($scope);
       $scope.$digest();
-
-      isolatedScope = element.isolateScope();
 
     }));
 
