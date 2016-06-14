@@ -1,4 +1,4 @@
-/*! angular-smart-nav - v0.2.0 - 2016-06-13 */
+/*! angular-smart-nav - v0.2.0 - 2016-06-14 */
 'use strict';
 /**
  * Module that detects the last scroll direction and
