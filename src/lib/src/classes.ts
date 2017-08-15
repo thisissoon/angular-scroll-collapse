@@ -1,0 +1,2 @@
+export const directionUpClass = 'class.sn-scrolling-up';
+export const directionDownClass = 'class.sn-scrolling-down';

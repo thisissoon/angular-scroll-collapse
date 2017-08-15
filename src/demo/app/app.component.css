@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  font-family: Roboto, sans-serif;
+  padding-top: 100px;
+}
+
+.foo {
+  background-color: #563d7c;
+  left: 0;
+  height: 100px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: opacity .35s ease-in-out;
+}
+
+.foo.sn-scrolling-down {
+  opacity: 0;
+}
+
+.foo.sn-scrolling-up {
+  opacity: 1;
+}
+
+.spacer {
+  height: 300vh;
+}
