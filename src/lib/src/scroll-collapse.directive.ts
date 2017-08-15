@@ -44,27 +44,24 @@ export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
   /**
    * Original offsetTop of element
    *
-   * @private
    * @type {number}
    * @memberof ScrollCollapseDirective
    */
-  private originalTop: number;
+  public originalTop: number;
   /**
    * Original offsetHeight of element
    *
-   * @private
    * @type {number}
    * @memberof ScrollCollapseDirective
    */
-  private originalHeight: number;
+  public originalHeight: number;
   /**
    * Observable that returns the size of the viewport
    *
-   * @private
    * @type {Subject<Viewport>}
    * @memberof ScrollCollapseDirective
    */
-  private viewport$ = new Subject<Viewport>();
+  public viewport$ = new Subject<Viewport>();
   /**
    * Completes on component destroy lifecycle event
    * use to handle unsubscription from infinite observables
