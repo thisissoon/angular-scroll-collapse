@@ -1,6 +1,6 @@
 import {
   Directive, ElementRef, HostListener, HostBinding,
-  EventEmitter, Input, Output, OnInit, OnDestroy
+  EventEmitter, Input, Output, AfterContentInit, OnDestroy
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
@@ -18,7 +18,7 @@ import * as classes from './classes';
  * `sn-scrolling-down` class to the element. The library can also detect when
  * the user has scrolled passed the element and apply a `sn-affix` class.
  * Useful for make a element sticky when the user has scrolled beyond it.
- * This library can will also apply `sn-minimize` class after the user has
+ * This library can will also apply `sn-minimise` class after the user has
  * scrolled beyond the height of the element.
  *
  * @example
@@ -32,7 +32,7 @@ import * as classes from './classes';
 @Directive({
   selector: '[scrollCollapse]'
 })
-export class ScrollCollapseDirective implements OnInit, OnDestroy {
+export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
   /**
    * The last scroll direction
    *
@@ -41,6 +41,22 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   private scrollDirection: Direction;
+  /**
+   * Original offsetTop of element
+   *
+   * @private
+   * @type {number}
+   * @memberof ScrollCollapseDirective
+   */
+  private originalTop: number;
+  /**
+   * Original offsetHeight of element
+   *
+   * @private
+   * @type {number}
+   * @memberof ScrollCollapseDirective
+   */
+  private originalHeight: number;
   /**
    * Observable that returns the size of the viewport
    *
@@ -90,6 +106,15 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
     return this.scrollDirection === Direction.DOWN;
   }
   /**
+   * Returns true if the user has scrolled pass the original `offsetTop`
+   * position of the element.
+   *
+   * @type {boolean}
+   * @memberof ScrollCollapseDirective
+   */
+  @HostBinding(classes.affixClass)
+  public affixMode = false;
+  /**
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
@@ -110,7 +135,10 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  public ngOnInit(): void {
+  public ngAfterContentInit(): void {
+    const el: HTMLElement = this.el.nativeElement;
+    this.originalTop = el.offsetTop;
+    this.originalHeight = el.offsetHeight;
     this.viewport$
       .takeUntil(this.ngUnsubscribe$)
       .debounceTime(this.debounce)
@@ -118,6 +146,7 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
       .subscribe((events: Viewport[]) => {
         this.calculateScrollDirection(events);
         this.calculateMinimiseMode(events[1]);
+        this.calculateAffixMode(events[1]);
       });
   }
   /**
@@ -163,8 +192,17 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateMinimiseMode(viewport: Viewport): void {
-    const el: HTMLElement = this.el.nativeElement;
-    this.minimiseMode = viewport.scrollY > el.offsetHeight;
+    this.minimiseMode = viewport.scrollY > this.originalHeight;
+  }
+  /**
+   * Calculate if the user has scrolled pass the origin height of
+   * the element assuming the element is fixed at the top of the page
+   *
+   * @param {Viewport} viewport
+   * @memberof ScrollCollapseDirective
+   */
+  public calculateAffixMode(viewport: Viewport): void {
+    this.affixMode = viewport.scrollY > this.originalTop;
   }
   /**
    * trigger `ngUnsubscribe` complete on
