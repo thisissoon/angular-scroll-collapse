@@ -5,21 +5,32 @@
 }
 
 .foo {
+  align-items: center;
   background-color: #563d7c;
-  left: 0;
+  color: #ffffff;
+  display: flex;
   height: 100px;
+  justify-content: center;
+  left: 0;
   position: fixed;
   right: 0;
+  text-align: center;
   top: 0;
-  transition: opacity .35s ease-in-out;
+  transition: all .35s ease-in-out;
+}
+.foo .down,
+.foo .up {
+  display: none;
 }
 
-.foo.sn-scrolling-down {
-  opacity: 0;
+.foo.sn-scrolling-down .down,
+.foo.sn-scrolling-up .up {
+  display: block;
 }
 
-.foo.sn-scrolling-up {
-  opacity: 1;
+.foo.sn-minimise {
+  background-color: #007bff;
+  height: 50px;
 }
 
 .spacer {

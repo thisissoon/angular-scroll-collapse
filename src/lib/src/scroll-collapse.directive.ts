@@ -17,9 +17,9 @@ import * as classes from './classes';
  * that detects scroll direction and adds a `sn-scrolling-up` or
  * `sn-scrolling-down` class to the element. The library can also detect when
  * the user has scrolled passed the element and apply a `sn-affix` class.
- * Useful for make a element sticky when the user has scrolled beyond it. This
- * library can will also apply `sn-minimize` class after the user has scrolled
- * beyond the height of the element.
+ * Useful for make a element sticky when the user has scrolled beyond it.
+ * This library can will also apply `sn-minimize` class after the user has
+ * scrolled beyond the height of the element.
  *
  * @example
  * ```
@@ -90,6 +90,15 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
     return this.scrollDirection === Direction.DOWN;
   }
   /**
+   * Returns true if the user has scrolled pass the origin height of
+   * the element assuming the element is fixed at the top of the page
+   *
+   * @type {boolean}
+   * @memberof ScrollCollapseDirective
+   */
+  @HostBinding(classes.minimiseClass)
+  public minimiseMode = false;
+  /**
    * Creates an instance of ScrollCollapseDirective.
    * @param {ElementRef} el
    * @memberof ScrollCollapseDirective
@@ -106,7 +115,10 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe$)
       .debounceTime(this.debounce)
       .bufferCount(2, 1)
-      .subscribe((events: Viewport[]) => this.calculateScrollDirection(events));
+      .subscribe((events: Viewport[]) => {
+        this.calculateScrollDirection(events);
+        this.calculateMinimiseMode(events[1]);
+      });
   }
   /**
    * On window scroll/resize/load events
@@ -131,10 +143,10 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
     this.viewport$.next(viewport);
   }
   /**
-   * Calculate scrollCollapse status and emit event
-   * when viewport status has changed
+   * Calculate last scroll direction by comparing y scroll position
+   * of last two values of `viewport$` observable
    *
-   * @param {Viewport} viewport
+   * @param {Viewport[]} events
    * @memberof ScrollCollapseDirective
    */
   public calculateScrollDirection(events: Viewport[]): void {
@@ -142,6 +154,17 @@ export class ScrollCollapseDirective implements OnInit, OnDestroy {
     const currentEvent = events[1];
     this.scrollDirection = (pastEvent.scrollY > currentEvent.scrollY) ?
       Direction.UP : Direction.DOWN;
+  }
+  /**
+   * Calculate if the user has scrolled pass the origin height of
+   * the element assuming the element is fixed at the top of the page
+   *
+   * @param {Viewport} viewport
+   * @memberof ScrollCollapseDirective
+   */
+  public calculateMinimiseMode(viewport: Viewport): void {
+    const el: HTMLElement = this.el.nativeElement;
+    this.minimiseMode = viewport.scrollY > el.offsetHeight;
   }
   /**
    * trigger `ngUnsubscribe` complete on
