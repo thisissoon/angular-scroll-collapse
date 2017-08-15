@@ -5,10 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  highlight = true;
-
-  onScrollCollapseChange(scrollCollapse: boolean) {
-    this.highlight = scrollCollapse;
-  }
-}
+export class AppComponent { }

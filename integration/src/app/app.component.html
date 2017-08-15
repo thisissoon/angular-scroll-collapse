@@ -1,6 +1,11 @@
-<h1>Scroll down ↓ and right →</h1>
+<h1>Scroll down ↓</h1>
+<nav class="foo" scrollCollapse [debounce]="0">
+  My nav&nbsp;
+  <span class="down">Going down</span>
+  <span class="up">Going up</span>
+</nav>
 <div class="spacer"></div>
-<p class="small-element" scrollCollapse (onScrollCollapseChange)="onScrollCollapseChange($event)" [ngClass]="{'highlight': highlight}">Amet tempor excepteur occaecat nulla. Aute deserunt esse duis velit mollit exercitation nisi officia. Anim do irure cillum esse esse ea magna elit. Velit reprehenderit eiusmod aliqua do reprehenderit elit commodo enim do deserunt consequat ea elit. Incididunt dolore officia consectetur anim ex ea commodo ullamco veniam ipsum esse amet cupidatat commodo. Id consequat duis aliqua minim aliquip enim officia elit. Sint est fugiat ex ex proident ad veniam do excepteur.</p>
-
-<p class="large-element" scrollCollapse>very large element</p>
+<div class="bar" scrollCollapse [debounce]="0">
+  Sticky when scrolled passed
+</div>
 <div class="spacer"></div>

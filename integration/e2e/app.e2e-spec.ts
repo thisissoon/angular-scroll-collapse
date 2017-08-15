@@ -12,39 +12,50 @@ describe('ScrollCollapse Lib E2E Tests', function () {
     });
   });
 
-  it('should display lib', () => {
-    expect(element(by.css('p')).getText()).toContain('Amet tempor excepteur occaecat nulla.');
+  describe('scroll direction', () => {
+    it('should add scrolling direction class', () => {
+      browser.executeScript('window.scrollTo(0, 0)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-scrolling-down')).isPresent()).toBeFalsy();
+      expect(element(by.css('.foo.sn-scrolling-up')).isPresent()).toBeFalsy();
+
+      browser.executeScript('window.scrollTo(0, 10)');
+      browser.executeScript('window.scrollTo(0, 200)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-scrolling-down')).isPresent()).toBeTruthy();
+      expect(element(by.css('.foo.sn-scrolling-up')).isPresent()).toBeFalsy();
+
+      browser.executeScript('window.scrollTo(0, 100)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-scrolling-up')).isPresent()).toBeTruthy();
+      expect(element(by.css('.foo.sn-scrolling-down')).isPresent()).toBeFalsy();
+    });
   });
 
-  it('should show `sn-viewport-out` class', () => {
-    expect(element(by.css('.small-element.sn-viewport-out')).isPresent()).toBeTruthy();
+  describe('minimise mode', () => {
+    it('should add "sn-minimise" class', () => {
+      browser.executeScript('window.scrollTo(0, 0)');
+      browser.executeScript('window.scrollTo(0, 10)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-minimise')).isPresent()).toBeFalsy();
 
-    browser.executeScript('window.scrollTo(0, window.innerHeight/2)');
-    expect(element(by.css('.small-element.sn-viewport-out')).isPresent()).toBeFalsy();
+      browser.executeScript('window.scrollTo(0, 110)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-minimise')).isPresent()).toBeTruthy();
+    });
   });
 
-  it('should show `sn-viewport-in` class', () => {
-    browser.executeScript('window.scrollTo(0, window.innerHeight/2)');
-    expect(element(by.css('.small-element.sn-viewport-in')).isPresent()).toBeTruthy();
+  describe('affix mode', () => {
+    it('should add "sn-affix" class', () => {
+      browser.executeScript('window.scrollTo(0, 0)');
+      browser.executeScript('window.scrollTo(0, 10)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-affix')).isPresent()).toBeFalsy();
 
-    browser.executeScript('window.scrollTo(0,0)');
-    expect(element(by.css('.small-element.sn-viewport-in')).isPresent()).toBeFalsy();
-  });
-
-  it('should run event handler `onScrollCollapseChange`', () => {
-    browser.executeScript('window.scrollTo(0, window.innerHeight/2)');
-    expect(element(by.css('.small-element.highlight')).isPresent()).toBeTruthy();
-
-    browser.executeScript('window.scrollTo(0,0)');
-    expect(element(by.css('.small-element.highlight')).isPresent()).toBeFalsy();
-  });
-
-  it('should add `scroll-collapse` class to large element', () => {
-    browser.executeScript('window.scrollTo(0, window.innerHeight * 2)');
-    expect(element(by.css('.large-element.sn-viewport-in')).isPresent()).toBeTruthy();
-
-    browser.executeScript('window.scrollTo(0,0)');
-    expect(element(by.css('.large-element.sn-viewport-in')).isPresent()).toBeFalsy();
+      browser.executeScript('window.scrollTo(0, window.innerHeight*2)');
+      browser.sleep(400);
+      expect(element(by.css('.foo.sn-affix')).isPresent()).toBeTruthy();
+    });
   });
 
 });
