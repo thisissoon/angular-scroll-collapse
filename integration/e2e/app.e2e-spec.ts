@@ -50,11 +50,11 @@ describe('ScrollCollapse Lib E2E Tests', function () {
       browser.executeScript('window.scrollTo(0, 0)');
       browser.executeScript('window.scrollTo(0, 10)');
       browser.sleep(400);
-      expect(element(by.css('.foo.sn-affix')).isPresent()).toBeFalsy();
+      expect(element(by.css('.bar.sn-affix')).isPresent()).toBeFalsy();
 
-      browser.executeScript('window.scrollTo(0, window.innerHeight*2)');
+      browser.executeScript('window.scrollTo(0, window.innerHeight*3)');
       browser.sleep(400);
-      expect(element(by.css('.foo.sn-affix')).isPresent()).toBeTruthy();
+      expect(element(by.css('.bar.sn-affix')).isPresent()).toBeTruthy();
     });
   });
 
