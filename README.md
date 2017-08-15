@@ -24,58 +24,86 @@ export class AppModule { }
 ```
 
 
-## Example
+## Examples
 
-### Just using classes
+### Scroll direction
 
 ```html
-<p class="foo" scrollCollapse>Amet tempor excepteur occaecat nulla.</p>
+<nav class="foo" scrollCollapse>
+  ...
+</nav>
 ```
 
 ```css
 .foo {
-  transition: transform .35s ease-out;
+  left: 0;
+  height : 100px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: all .35s ease-in-out;
 }
 
-.foo.sn-viewport-out {
-  transform: translateY(-30px);
+.foo.sn-scrolling-down {
+  transform: translateY(-100px);
 }
 
-.foo.sn-viewport-in {
+.foo.sn-scrolling-up {
   transform: translateY(0);
 }
 ```
 
-### Using events
+### Affix mode
+
+In this scenario the nav element will have the class `sn-affix` added when the user scrolls past the header element and the nav is at the top of the viewport.
 
 ```html
-<p class="foo" scrollCollapse (onScrollCollapseChange)="onScrollCollapseChange($event)">
-  Amet tempor excepteur occaecat nulla.
-</p>
-```
-
-```ts
-export class AppComponent {
-  highlight = false;
-
-  onScrollCollapseChange(scrollCollapse: boolean) {
-    this.highlight = scrollCollapse;
-  }
-}
+<header>...</header>
+<nav class="foo" scrollCollapse>
+  ...
+</nav>
 ```
 
 ```css
-.highlight {
-  background-color: yellow;
+.foo.sn-affix {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+```
+
+
+### Minimise mode
+
+In this scenario the nav element will have the class `sn-minimise` added when the user scrolls 100px (the original height of the element) down the page.
+
+```html
+<header class="foo" scrollCollapse>
+  ...
+</header>
+```
+
+```css
+.foo {
+  left: 0;
+  height: 100px;
+  position
+  right: 0;
+  top: 0;
+}
+
+.foo.sn-minimise {
+  height: 50px;
 }
 ```
 
 ### Specify debounce time (default: 100ms)
 
 ```html
-<p class="foo" scrollCollapse [debounce]="500">
-  Amet tempor excepteur occaecat nulla.
-</p>
+<header class="foo" scrollCollapse [debounce]="500">
+  ...
+</header>
 ```
 
 [travis-badge]: https://travis-ci.org/thisissoon/angular-scroll-collapse.svg?branch=master
