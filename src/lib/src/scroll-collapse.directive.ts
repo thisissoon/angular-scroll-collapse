@@ -23,14 +23,14 @@ import * as classes from './classes';
  *
  * @example
  * ```
- * <p scrollCollapse>Amet tempor excepteur occaecat nulla.</p>
+ * <p snScrollCollapse>Amet tempor excepteur occaecat nulla.</p>
  * ```
  *
  * @export
  * @class ScrollCollapseDirective
  */
 @Directive({
-  selector: '[scrollCollapse]'
+  selector: '[scrollCollapse], [snScrollCollapse]'
 })
 export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
   /**
