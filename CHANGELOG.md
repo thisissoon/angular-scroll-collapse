@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v1.0.0...v1.1.0) (2017-08-25)
+
+
+### Features
+
+* **ScrollCollapse:** update directive selector so it matches [snScrollCollapse] ([e375ceb](https://github.com/thisissoon/angular-scroll-collapse/commit/e375ceb)), closes [#16](https://github.com/thisissoon/angular-scroll-collapse/issues/16)
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v0.2.1...v1.0.0) (2017-08-16)
 
