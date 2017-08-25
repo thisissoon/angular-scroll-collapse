@@ -29,7 +29,7 @@ export class AppModule { }
 ### Scroll direction
 
 ```html
-<nav class="foo" scrollCollapse>
+<nav class="foo" snScrollCollapse>
   ...
 </nav>
 ```
@@ -59,7 +59,7 @@ In this scenario the nav element will have the class `sn-affix` added when the u
 
 ```html
 <header>...</header>
-<nav class="foo" scrollCollapse>
+<nav class="foo" snScrollCollapse>
   ...
 </nav>
 ```
@@ -79,7 +79,7 @@ In this scenario the nav element will have the class `sn-affix` added when the u
 In this scenario the nav element will have the class `sn-minimise` added when the user scrolls 100px (the original height of the element) down the page.
 
 ```html
-<header class="foo" scrollCollapse>
+<header class="foo" snScrollCollapse>
   ...
 </header>
 ```
@@ -101,7 +101,7 @@ In this scenario the nav element will have the class `sn-minimise` added when th
 ### Specify debounce time (default: 100ms)
 
 ```html
-<header class="foo" scrollCollapse [debounce]="500">
+<header class="foo" snScrollCollapse [debounce]="500">
   ...
 </header>
 ```
