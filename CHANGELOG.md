@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/thisissoon/angular-scroll-collapse/compare/v1.2.0...v1.2.1) (2017-12-04)
+
+
+### Bug Fixes
+
+* **build:** generate correct metadata needed for ng-language-service ([0b56342](https://github.com/thisissoon/angular-scroll-collapse/commit/0b56342))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v1.2.0-rc.0...v1.2.0) (2017-12-01)
 
