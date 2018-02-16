@@ -12,7 +12,7 @@ import * as eventData from './shared/event-data';
 import * as classes from './shared/classes';
 
 /**
- * A simple lightweight library for Angular 2/4+ with no other dependencies
+ * A simple lightweight library for Angular with no other dependencies
  * that detects scroll direction and adds a `sn-scrolling-up` or
  * `sn-scrolling-down` class to the element. The library can also detect when
  * the user has scrolled passed the element and apply a `sn-affix` class.
