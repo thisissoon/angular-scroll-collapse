@@ -5,9 +5,7 @@ import {
   Input,
   NgZone,
   AfterViewInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
+  OnDestroy
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import {
@@ -38,8 +36,6 @@ import * as classes from './shared/classes';
  * <p snScrollCollapse [debounce]="0">Amet tempor excepteur occaecat nulla.</p>
  * ```
  *
- * @export
- * @class ScrollCollapseDirective
  */
 @Directive({
   selector: '[snScrollCollapse]'
@@ -48,22 +44,18 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * The last scroll direction
    *
-   * @private
-   * @type {Direction}
    * @memberof ScrollCollapseDirective
    */
   private scrollDirection: Direction;
   /**
    * Original offsetTop of element
    *
-   * @type {number}
    * @memberof ScrollCollapseDirective
    */
   public originalTop: number;
   /**
    * Original offsetHeight of element
    *
-   * @type {number}
    * @memberof ScrollCollapseDirective
    */
   public originalHeight: number;
@@ -71,7 +63,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Completes on component destroy lifecycle event
    * use to handle unsubscription from infinite observables
    *
-   * @type {Subject<void>}
    * @memberof ScrollCollapseDirective
    */
   private ngUnsubscribe$ = new Subject<void>();
@@ -79,7 +70,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Amount of time in ms to wait for other scroll events
    * before running event handler
    *
-   * @type {number}
    * @default 0
    * @memberof ScrollCollapseDirective
    */
@@ -89,7 +79,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Returns true if last scroll direction is UP
    *
    * @readonly
-   * @type {boolean}
    * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.directionUpClass)
@@ -100,7 +89,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Returns true if last scroll direction is DOWN
    *
    * @readonly
-   * @type {boolean}
    * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.directionDownClass)
@@ -111,7 +99,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Returns true if the user has scrolled pass the original `offsetTop`
    * position of the element.
    *
-   * @type {boolean}
    * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.affixClass)
@@ -120,15 +107,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
-   * @type {boolean}
    * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.minimiseClass)
   public minimiseMode = false;
   /**
    * Creates an instance of ScrollCollapseDirective.
-   * @param {ElementRef} el
-   * @param {NgZone} ngZone
    * @memberof ScrollCollapseDirective
    */
   constructor(
@@ -155,7 +139,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
         .pipe(
           debounceTime(this.debounce),
           map(() => this.getViewport()),
-          startWith(this.getViewport()),
           bufferCount(2, 1),
           takeUntil(this.ngUnsubscribe$)
         )
@@ -169,7 +152,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Calculates values scroll direction, affix and
    * minimise properties
    *
-   * @param {Viewport[]} events
    * @memberof ScrollCollapseDirective
    */
   public onScrollOrResizeEvent(events: Viewport[]): void {
@@ -183,7 +165,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Calculate last scroll direction by comparing y scroll position
    * of last two values of `viewport$` observable
    *
-   * @param {Viewport[]} events
    * @memberof ScrollCollapseDirective
    */
   public calculateScrollDirection(events: Viewport[]): void {
@@ -196,7 +177,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Calculate if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
-   * @param {Viewport} viewport
    * @memberof ScrollCollapseDirective
    */
   public calculateMinimiseMode(viewport: Viewport): void {
@@ -206,7 +186,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * Calculate if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
-   * @param {Viewport} viewport
    * @memberof ScrollCollapseDirective
    */
   public calculateAffixMode(viewport: Viewport): void {
@@ -215,7 +194,6 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * Return current viewport values
    *
-   * @returns {Viewport}
    * @memberof ScrollCollapseDirective
    */
   public getViewport(): Viewport {

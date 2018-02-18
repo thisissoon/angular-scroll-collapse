@@ -11,8 +11,6 @@ import { ScrollCollapseDirective } from './scroll-collapse.directive';
  * user has scrolled beyond it. This library can will also apply 'sn-minimise'
  * class after the user has scrolled beyond the height of the element
  *
- * @export
- * @class ScrollCollapseModule
  */
 @NgModule({
   imports: [InViewportModule],
