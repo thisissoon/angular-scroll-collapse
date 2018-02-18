@@ -13,7 +13,9 @@ import {
   takeUntil,
   bufferCount,
   map,
-  startWith
+  startWith,
+  distinctUntilChanged,
+  tap
 } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { merge } from 'rxjs/observable/merge';
@@ -137,9 +139,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
         fromEvent(this.windowRef as any, eventData.eventResize)
       )
         .pipe(
-          debounceTime(this.debounce),
+          startWith(null),
           map(() => this.getViewport()),
           bufferCount(2, 1),
+          distinctUntilChanged(),
+          // Do not apply debounce operator if debounce is set to 0
+          this.debounce ? debounceTime(this.debounce) : tap(null),
           takeUntil(this.ngUnsubscribe$)
         )
         .subscribe((events: Viewport[]) =>
