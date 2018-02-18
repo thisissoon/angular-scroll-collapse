@@ -1,12 +1,13 @@
 # Angular Scroll Collapse
 [![Build Status][travis-badge]][travis-badge-url]
 [![Coverage Status][coveralls-badge]][coveralls-badge-url]
+[![Commitizen friendly][commitizen-badge]][commitizen]
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.4.
+This project was generated with [Angular CLI][angular-cli] version 1.5.4.
 
 A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
 
-This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit#heading=h.k0mh3o8u5hx).
+This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0][apfv5].
 
 
 ## Install
@@ -151,15 +152,23 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Karma][karma].
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng e2e` to execute the end-to-end tests via [Protractor][protractor].
+
+## Making Commits
+
+This repo uses [Commitizen CLI][commitizen] and [Conventional Changelog][conventional-changelog] to create commits and generate changelogs. Instead of running `git commit` run `git cz` and follow the prompts. Changelogs will then be generated when creating new releases by running `npm run release`.
+
+## Making Releases
+
+Run `npm run release` to create a new release. This will use [Standard Version][standard-version] to create a new release. [Standard Version][standard-version] will generate / update the changelog based on commits generated using [Commitizen CLI][commitizen], update the version number following semantic versioning rules and then commit and tag the commit for the release. Simply run `git push --follow-tags origin master`.
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README][angular-cli-readme].
 
 
 [travis-badge]: https://travis-ci.org/thisissoon/angular-scroll-collapse.svg?branch=master
@@ -167,3 +176,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [coveralls-badge]: https://coveralls.io/repos/github/thisissoon/angular-scroll-collapse/badge.svg?branch=master
 [coveralls-badge-url]: https://coveralls.io/github/thisissoon/angular-scroll-collapse?branch=master
 [angular]: https://angular.io/
+[commitizen]:http://commitizen.github.io/cz-cli/
+[commitizen-badge]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
+[conventional-changelog]:https://github.com/conventional-changelog/conventional-changelog
+[standard-version]:https://github.com/conventional-changelog/standard-version
+[Karma]:https://karma-runner.github.io
+[Protractor]:http://www.protractortest.org/
+[angular-cli]:https://github.com/angular/angular-cli
+[angular-cli-readme]:https://github.com/angular/angular-cli/blob/master/README.md
+[apfv5]:https://goo.gl/jB3GVv
