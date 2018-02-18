@@ -42,7 +42,7 @@ import * as classes from './shared/classes';
  * @class ScrollCollapseDirective
  */
 @Directive({
-  selector: '[scrollCollapse], [snScrollCollapse]'
+  selector: '[snScrollCollapse]'
 })
 export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
