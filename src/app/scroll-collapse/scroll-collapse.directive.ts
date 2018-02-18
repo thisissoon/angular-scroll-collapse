@@ -80,11 +80,11 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * before running event handler
    *
    * @type {number}
-   * @default 100
+   * @default 0
    * @memberof ScrollCollapseDirective
    */
   @Input()
-  public debounce = 100;
+  public debounce = 0;
   /**
    * Returns true if last scroll direction is UP
    *

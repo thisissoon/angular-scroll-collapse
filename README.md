@@ -129,7 +129,7 @@ In this scenario the nav element will have the class `sn-minimise` added when th
 }
 ```
 
-### Specify debounce time (default: 100ms)
+### Specify debounce time (default: 0ms)
 
 ```html
 <header class="foo" snScrollCollapse [debounce]="500">
