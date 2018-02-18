@@ -1,40 +1,65 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { ElementRef, SimpleChanges } from '@angular/core';
+import { WindowRef } from '@thisissoon/angular-inviewport';
+
 import { ScrollCollapseDirective } from './scroll-collapse.directive';
 
 describe('ScrollCollapseDirective', () => {
   let node: HTMLElement;
   let el: ElementRef;
   let directive: ScrollCollapseDirective;
+  let ngZone;
+  let windowRef;
 
   beforeEach(() => {
     node = document.createElement('p');
     el = new ElementRef(node);
-    directive = new ScrollCollapseDirective(el);
-    directive.ngAfterContentInit();
+    ngZone = {
+      run: jasmine.createSpy('run').and.callFake((fn) => fn()),
+      runOutsideAngular: jasmine.createSpy('runOutsideAngular').and.callFake((fn) => fn())
+    };
+    windowRef = {
+      triggerEvent: null,
+      scrollX: 0,
+      scrollY: 0,
+      innerWidth: 1366,
+      innerHeight: 768,
+      addEventListener: (name, fn) => windowRef.triggerEvent = fn,
+      removeEventListener: () => null
+    };
+    directive = new ScrollCollapseDirective(el, ngZone, windowRef);
+    directive.ngAfterViewInit();
   });
 
   describe('scroll event', () => {
-    it('should emit event value', fakeAsync(() => {
-      const spy = spyOn(directive.viewport$, 'next').and.callThrough();
-      directive.eventHandler(768, 1366, 0, 0);
+    it('should call event handler', fakeAsync(() => {
+      const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
+      const events = [
+        { scrollX: 0, scrollY: 0, width: 1366, height: 768 },
+        { scrollX: 0, scrollY: 50, width: 1366, height: 768 }
+      ];
+      directive.ngAfterViewInit();
+      windowRef.triggerEvent();
+      tick(50);
+      expect(spy).not.toHaveBeenCalled();
+      windowRef.scrollY = 50;
+      windowRef.triggerEvent();
       tick(100);
-      directive.eventHandler(768, 1366, 200, 0);
-      tick(100);
-      expect(spy).toHaveBeenCalledWith({
-        width: 1366,
-        height: 768,
-        scrollY: 200,
-        scrollX: 0
-      });
+      expect(spy).toHaveBeenCalledWith(events);
       expect(directive.isScrollingUp).toBeFalsy();
       expect(directive.isScrollingDown).toBeTruthy();
+
+      windowRef.scrollY = 0;
+      windowRef.triggerEvent();
+      tick(100);
+      expect(spy.calls.mostRecent().args).toEqual([events.reverse()]);
+      expect(directive.isScrollingUp).toBeTruthy();
+      expect(directive.isScrollingDown).toBeFalsy();
     }));
 
     it('should remove event handler on destroy', () => {
-      const spy = spyOn(directive, 'calculateScrollDirection');
+      const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
       directive.ngOnDestroy();
-      directive.eventHandler(768, 1366, 200, 0);
       expect(spy).not.toHaveBeenCalled();
     });
   });

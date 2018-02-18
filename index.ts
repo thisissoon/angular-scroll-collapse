@@ -2,5 +2,5 @@ export { ScrollCollapseModule } from './src/app/scroll-collapse/scroll-collapse.
 export { ScrollCollapseDirective } from './src/app/scroll-collapse/scroll-collapse.directive';
 export { affixClass, directionDownClass, directionUpClass, minimiseClass } from './src/app/scroll-collapse/shared/classes';
 export { Direction } from './src/app/scroll-collapse/shared/direction.enum';
-export { eventLoad, eventPathLoadScroll, eventPathResize, eventResize, eventScroll } from './src/app/scroll-collapse/shared/event-data';
+export { eventResize, eventScroll } from './src/app/scroll-collapse/shared/event-data';
 

@@ -1,28 +1,41 @@
 import {
-  Directive, ElementRef, HostListener, HostBinding,
-  EventEmitter, Input, Output, AfterContentInit, OnDestroy
+  Directive,
+  ElementRef,
+  HostBinding,
+  Input,
+  NgZone,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/bufferCount';
+import {
+  debounceTime,
+  takeUntil,
+  bufferCount,
+  map,
+  startWith
+} from 'rxjs/operators';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
+import { WindowRef } from '@thisissoon/angular-inviewport';
 
 import { Viewport, Direction } from './shared';
 import * as eventData from './shared/event-data';
 import * as classes from './shared/classes';
 
 /**
- * A simple lightweight library for Angular with no other dependencies
- * that detects scroll direction and adds a `sn-scrolling-up` or
- * `sn-scrolling-down` class to the element. The library can also detect when
- * the user has scrolled passed the element and apply a `sn-affix` class.
- * Useful for make a element sticky when the user has scrolled beyond it.
- * This library can will also apply `sn-minimise` class after the user has
- * scrolled beyond the height of the element.
+ * A simple lightweight library for Angular that detects scroll direction
+ * and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element.
+ * The library can also detect when the user has scrolled passed the element
+ * and apply a `sn-affix` class. Useful for make a element sticky when the
+ * user has scrolled beyond it. This library can will also apply `sn-minimise`
+ * class after the user has scrolled beyond the height of the element.
  *
  * @example
  * ```
- * <p snScrollCollapse>Amet tempor excepteur occaecat nulla.</p>
+ * <p snScrollCollapse [debounce]="0">Amet tempor excepteur occaecat nulla.</p>
  * ```
  *
  * @export
@@ -31,7 +44,7 @@ import * as classes from './shared/classes';
 @Directive({
   selector: '[scrollCollapse], [snScrollCollapse]'
 })
-export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
+export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * The last scroll direction
    *
@@ -54,13 +67,6 @@ export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public originalHeight: number;
-  /**
-   * Observable that returns the size of the viewport
-   *
-   * @type {Subject<Viewport>}
-   * @memberof ScrollCollapseDirective
-   */
-  public viewport$ = new Subject<Viewport>();
   /**
    * Completes on component destroy lifecycle event
    * use to handle unsubscription from infinite observables
@@ -122,50 +128,56 @@ export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
   /**
    * Creates an instance of ScrollCollapseDirective.
    * @param {ElementRef} el
+   * @param {NgZone} ngZone
    * @memberof ScrollCollapseDirective
    */
-  constructor(private el: ElementRef) { }
+  constructor(
+    private el: ElementRef,
+    private ngZone: NgZone,
+    private windowRef: WindowRef
+  ) { }
   /**
-   * Subscribe to `viewport$` observable which
-   * will call event handler
+   * Subscribe to window resize events as an observable
+   * will calculate directive values
    *
    * @memberof ScrollCollapseDirective
    */
-  public ngAfterContentInit(): void {
+  public ngAfterViewInit(): void {
     const el: HTMLElement = this.el.nativeElement;
     this.originalTop = el.offsetTop;
     this.originalHeight = el.offsetHeight;
-    this.viewport$
-      .takeUntil(this.ngUnsubscribe$)
-      .debounceTime(this.debounce)
-      .bufferCount(2, 1)
-      .subscribe((events: Viewport[]) => {
-        this.calculateScrollDirection(events);
-        this.calculateMinimiseMode(events[1]);
-        this.calculateAffixMode(events[1]);
-      });
+
+    this.ngZone.runOutsideAngular(() => {
+      merge(
+        fromEvent(this.windowRef as any, eventData.eventScroll),
+        fromEvent(this.windowRef as any, eventData.eventResize)
+      )
+        .pipe(
+          debounceTime(this.debounce),
+          map(() => this.getViewport()),
+          startWith(this.getViewport()),
+          bufferCount(2, 1),
+          takeUntil(this.ngUnsubscribe$)
+        )
+        .subscribe((events: Viewport[]) =>
+          this.ngZone.run(() => this.onScrollOrResizeEvent(events))
+        );
+    });
   }
   /**
-   * On window scroll/resize/load events
-   * emit next `viewport$` observable value
+   * Event handler for scroll and resize events
+   * Calculates values scroll direction, affix and
+   * minimise properties
    *
-   * @param {number} height
-   * @param {number} width
-   * @param {number} scrollY
-   * @param {number} scrollX
+   * @param {Viewport[]} events
    * @memberof ScrollCollapseDirective
    */
-  @HostListener(eventData.eventLoad, eventData.eventPathLoadScroll)
-  @HostListener(eventData.eventScroll, eventData.eventPathLoadScroll)
-  @HostListener(eventData.eventResize, eventData.eventPathResize)
-  public eventHandler(
-    height: number,
-    width: number,
-    scrollY: number,
-    scrollX: number
-  ): void {
-    const viewport: Viewport = { height, width, scrollY, scrollX };
-    this.viewport$.next(viewport);
+  public onScrollOrResizeEvent(events: Viewport[]): void {
+    const previousEvent = events[0];
+    const currentEvent = events[1];
+    this.calculateScrollDirection(events);
+    this.calculateMinimiseMode(currentEvent);
+    this.calculateAffixMode(currentEvent);
   }
   /**
    * Calculate last scroll direction by comparing y scroll position
@@ -199,6 +211,20 @@ export class ScrollCollapseDirective implements AfterContentInit, OnDestroy {
    */
   public calculateAffixMode(viewport: Viewport): void {
     this.affixMode = viewport.scrollY > this.originalTop;
+  }
+  /**
+   * Return current viewport values
+   *
+   * @returns {Viewport}
+   * @memberof ScrollCollapseDirective
+   */
+  public getViewport(): Viewport {
+    return {
+      height: this.windowRef.innerHeight,
+      width: this.windowRef.innerWidth,
+      scrollY: this.windowRef.scrollY,
+      scrollX: this.windowRef.scrollX
+    };
   }
   /**
    * trigger `ngUnsubscribe` complete on

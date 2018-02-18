@@ -4,29 +4,57 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.4.
 
-A simple lightweight library for [Angular][angular] with no other dependencies that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
+A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
 
 This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit#heading=h.k0mh3o8u5hx).
 
 
 ## Install
 
-`npm i @thisissoon/angular-scroll-collapse --save`
+### via NPM
+
+`npm i @thisissoon/{angular-scroll-collapse,angular-inviewport} --save`
+
+### via Yarn
+
+`yarn add @thisissoon/angular-scroll-collapse @thisissoon/angular-inviewport`
 
 `app.module.ts`
 ```ts
+import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
 
 @NgModule({
   imports: [
+    InViewportModule.forRoot([
+      { provide: WindowRef, useFactory: () => window }
+    ]),
     ScrollCollapseModule
   ]
 })
 export class AppModule { }
 ```
 
+`yarn add @thisissoon/angular-scroll-collapse @thisissoon/angular-inviewport`
+
+`app.server.module.ts`
+```ts
+import { InViewportModule } from '@thisissoon/angular-inviewport';
+import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
+
+@NgModule({
+  imports: [
+    InViewportModule.forRoot(), // No need to provide WindowRef for server module
+    ScrollCollapseModule
+  ]
+})
+export class AppServerModule { }
+```
+
 
 ## Examples
+
+A working example can be found inside [/src](https://github.com/thisissoon/angular-scroll-collapse/tree/master/src) folder.
 
 ### Scroll direction
 
