@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0-rc.2"></a>
+# [2.0.0-rc.2](https://github.com/thisissoon/angular-scroll-collapse/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2018-02-19)
+
+
+### Bug Fixes
+
+* **ScrollCollapse:** fixed issue where affix would not be calculated in nested element with position ([7507dd4](https://github.com/thisissoon/angular-scroll-collapse/commit/7507dd4))
+
+
+
 <a name="2.0.0-rc.1"></a>
 # [2.0.0-rc.1](https://github.com/thisissoon/angular-scroll-collapse/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2018-02-19)
 
