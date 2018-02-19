@@ -54,7 +54,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  public originalTop: number;
+  public originalTop = 0;
   /**
    * Original offsetHeight of element
    *
@@ -130,7 +130,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public ngAfterViewInit(): void {
     const el: HTMLElement = this.el.nativeElement;
-    this.originalTop = el.offsetTop;
+    // Check if `getBoundingClientRect` is a function in case running
+    // in an platform without the DOM
+    if (typeof el.getBoundingClientRect === 'function') {
+      const elBounds = el.getBoundingClientRect();
+      this.originalTop = elBounds.top + this.windowRef.scrollY;
+    }
     this.originalHeight = el.offsetHeight;
 
     this.ngZone.runOutsideAngular(() => {
