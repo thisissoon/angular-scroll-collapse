@@ -38,6 +38,7 @@ describe('ScrollCollapseDirective', () => {
         { scrollX: 0, scrollY: 0, width: 1366, height: 768 },
         { scrollX: 0, scrollY: 50, width: 1366, height: 768 }
       ];
+      directive.debounce = 100;
       directive.ngAfterViewInit();
       windowRef.triggerEvent();
       tick(50);
