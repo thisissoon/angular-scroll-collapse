@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0-rc.0"></a>
+# [2.0.0-rc.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v1.2.1...v2.0.0-rc.0) (2018-02-19)
+
+
+### Bug Fixes
+
+* **ScrollCollapse:** remove [scrollCollapse] selector ([7e76d44](https://github.com/thisissoon/angular-scroll-collapse/commit/7e76d44))
+* **ScrollCollapse:** remove debounce operator when set to 0 for rubber band scrolling ([5a5e4e2](https://github.com/thisissoon/angular-scroll-collapse/commit/5a5e4e2))
+
+
+### Features
+
+* **ScrollCollapse:** change default debounce time to 0ms ([7d90b49](https://github.com/thisissoon/angular-scroll-collapse/commit/7d90b49))
+
+
+### Performance Improvements
+
+* **ScrollCollapse:** Use fromEvent observable instead of HostBinding for scroll and resize events ([1348ee5](https://github.com/thisissoon/angular-scroll-collapse/commit/1348ee5))
+
+
+### BREAKING CHANGES
+
+* **ScrollCollapse:** Set default debounce time to 0ms
+* **ScrollCollapse:** removed [scrollCollapse ]selector as only [snScrollCollapse] should be used
+* **ScrollCollapse:** @thisissoon/angular-inviewport module has been added as a peer dependency as
+directive now uses WindowRef service
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/thisissoon/angular-scroll-collapse/compare/v1.2.0...v1.2.1) (2017-12-04)
 
