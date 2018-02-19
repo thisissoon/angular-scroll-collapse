@@ -185,7 +185,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateMinimiseMode(viewport: Viewport): void {
-    this.minimiseMode = viewport.scrollY > this.originalHeight;
+    this.minimiseMode = viewport.scrollY >= (this.originalHeight + this.originalTop);
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
@@ -194,7 +194,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateAffixMode(viewport: Viewport): void {
-    this.affixMode = viewport.scrollY > this.originalTop;
+    this.affixMode = viewport.scrollY >= this.originalTop;
   }
   /**
    * Return current viewport values

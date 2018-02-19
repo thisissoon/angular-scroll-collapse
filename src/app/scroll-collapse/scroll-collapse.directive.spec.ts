@@ -100,6 +100,19 @@ describe('ScrollCollapseDirective', () => {
       directive.calculateMinimiseMode({ scrollX: 0, scrollY: 99, width: 1366, height: 768 });
       expect(directive.minimiseMode).toBeFalsy();
     });
+
+    it('should factor in element offsetTop when calculating minimise mode', () => {
+      directive.originalHeight = 100;
+      directive.originalTop = 100;
+      directive.calculateMinimiseMode({ scrollX: 0, scrollY: 0, width: 1366, height: 768 });
+      expect(directive.minimiseMode).toBeFalsy();
+
+      directive.calculateMinimiseMode({ scrollX: 0, scrollY: 200, width: 1366, height: 768 });
+      expect(directive.minimiseMode).toBeTruthy();
+
+      directive.calculateMinimiseMode({ scrollX: 0, scrollY: 199, width: 1366, height: 768 });
+      expect(directive.minimiseMode).toBeFalsy();
+    });
   });
 
   describe('affix mode', () => {
