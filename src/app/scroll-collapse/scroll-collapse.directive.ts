@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   OnDestroy
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { fromEvent, merge, Subject } from 'rxjs';
 import {
   debounceTime,
   takeUntil,
@@ -17,8 +17,6 @@ import {
   distinctUntilChanged,
   tap
 } from 'rxjs/operators';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
 import { WindowRef } from '@thisissoon/angular-inviewport';
 
 import { Viewport, Direction } from './shared';
@@ -34,7 +32,7 @@ import * as classes from './shared/classes';
  * class after the user has scrolled beyond the height of the element.
  *
  * @example
- * ```
+ * ```html
  * <p snScrollCollapse [debounce]="0">Amet tempor excepteur occaecat nulla.</p>
  * ```
  *
