@@ -1,12 +1,13 @@
 # Angular Scroll Collapse
+
 [![Build Status][travis-badge]][travis-badge-url]
 [![Coverage Status][coveralls-badge]][coveralls-badge-url]
 [![Commitizen friendly][commitizen-badge]][commitizen]
+[![code style: prettier][prettier-badge]][prettier-badge-url]
 
 A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
 
 This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0][apfv5].
-
 
 ## Install
 
@@ -19,6 +20,7 @@ This is a simple library for [Angular][angular], implemented in the [Angular Pac
 `yarn add @thisissoon/angular-scroll-collapse @thisissoon/angular-inviewport`
 
 `app.module.ts`
+
 ```ts
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
@@ -31,12 +33,13 @@ import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
     ScrollCollapseModule
   ]
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 `yarn add @thisissoon/angular-scroll-collapse @thisissoon/angular-inviewport`
 
 `app.server.module.ts`
+
 ```ts
 import { InViewportModule } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
@@ -47,9 +50,8 @@ import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
     ScrollCollapseModule
   ]
 })
-export class AppServerModule { }
+export class AppServerModule {}
 ```
-
 
 ## Examples
 
@@ -66,11 +68,11 @@ A working example can be found inside [/src](https://github.com/thisissoon/angul
 ```css
 .foo {
   left: 0;
-  height : 100px;
+  height: 100px;
   position: fixed;
   right: 0;
   top: 0;
-  transition: all .35s ease-in-out;
+  transition: all 0.35s ease-in-out;
 }
 
 .foo.sn-scrolling-down {
@@ -102,7 +104,6 @@ In this scenario the nav element will have the class `sn-affix` added when the u
 }
 ```
 
-
 ### Minimise mode
 
 In this scenario the nav element will have the class `sn-minimise` added when the user scrolls 100px (the original height of the element) down the page.
@@ -117,8 +118,7 @@ In this scenario the nav element will have the class `sn-minimise` added when th
 .foo {
   left: 0;
   height: 100px;
-  position
-  right: 0;
+  positionright: 0;
   top: 0;
 }
 
@@ -134,7 +134,6 @@ In this scenario the nav element will have the class `sn-minimise` added when th
   ...
 </header>
 ```
-
 
 ## Development server
 
@@ -168,18 +167,19 @@ Run `npm run release` to create a new release. This will use [Standard Version][
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README][angular-cli-readme].
 
-
 [travis-badge]: https://travis-ci.org/thisissoon/angular-scroll-collapse.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/thisissoon/angular-scroll-collapse
 [coveralls-badge]: https://coveralls.io/repos/github/thisissoon/angular-scroll-collapse/badge.svg?branch=master
 [coveralls-badge-url]: https://coveralls.io/github/thisissoon/angular-scroll-collapse?branch=master
+[prettier-badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=shield
+[prettier-badge-url]: https://github.com/prettier/prettier
 [angular]: https://angular.io/
-[commitizen]:http://commitizen.github.io/cz-cli/
-[commitizen-badge]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[conventional-changelog]:https://github.com/conventional-changelog/conventional-changelog
-[standard-version]:https://github.com/conventional-changelog/standard-version
-[Karma]:https://karma-runner.github.io
-[Protractor]:http://www.protractortest.org/
-[angular-cli]:https://github.com/angular/angular-cli
-[angular-cli-readme]:https://github.com/angular/angular-cli/blob/master/README.md
-[apfv5]:https://goo.gl/jB3GVv
+[commitizen]: http://commitizen.github.io/cz-cli/
+[commitizen-badge]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
+[conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
+[standard-version]: https://github.com/conventional-changelog/standard-version
+[karma]: https://karma-runner.github.io
+[protractor]: http://www.protractortest.org/
+[angular-cli]: https://github.com/angular/angular-cli
+[angular-cli-readme]: https://github.com/angular/angular-cli/blob/master/README.md
+[apfv5]: https://goo.gl/jB3GVv

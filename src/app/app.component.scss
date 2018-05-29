@@ -7,7 +7,7 @@
 .nav {
   align-items: center;
   background-color: #563d7c;
-  color: #ffffff;
+  color: #fff;
   display: flex;
   height: 100px;
   justify-content: center;
@@ -16,7 +16,7 @@
   right: 0;
   text-align: center;
   top: 0;
-  transition: all .35s ease-in-out;
+  transition: all 0.35s ease-in-out;
 }
 
 .nav .down,
@@ -37,12 +37,12 @@
 .bar {
   align-items: center;
   background-color: #d4edda;
-  color: #ffffff;
+  color: #fff;
   display: flex;
   height: 100px;
   justify-content: center;
   text-align: center;
-  transition: all .35s ease-in-out;
+  transition: all 0.35s ease-in-out;
 }
 
 .bar.sn-affix {

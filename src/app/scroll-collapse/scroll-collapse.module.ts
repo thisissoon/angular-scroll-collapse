@@ -17,4 +17,4 @@ import { ScrollCollapseDirective } from './scroll-collapse.directive';
   declarations: [ScrollCollapseDirective],
   exports: [ScrollCollapseDirective]
 })
-export class ScrollCollapseModule { }
+export class ScrollCollapseModule {}

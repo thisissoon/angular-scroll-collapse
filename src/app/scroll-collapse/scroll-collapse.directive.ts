@@ -73,8 +73,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @default 0
    * @memberof ScrollCollapseDirective
    */
-  @Input()
-  public debounce = 0;
+  @Input() public debounce = 0;
   /**
    * Returns true if last scroll direction is UP
    *
@@ -101,16 +100,14 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  @HostBinding(classes.affixClass)
-  public affixMode = false;
+  @HostBinding(classes.affixClass) public affixMode = false;
   /**
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
    * @memberof ScrollCollapseDirective
    */
-  @HostBinding(classes.minimiseClass)
-  public minimiseMode = false;
+  @HostBinding(classes.minimiseClass) public minimiseMode = false;
   /**
    * Creates an instance of ScrollCollapseDirective.
    * @memberof ScrollCollapseDirective
@@ -119,7 +116,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     private el: ElementRef,
     private ngZone: NgZone,
     private windowRef: WindowRef
-  ) { }
+  ) {}
   /**
    * Subscribe to window resize events as an observable
    * will calculate directive values
@@ -178,8 +175,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   public calculateScrollDirection(events: Viewport[]): void {
     const pastEvent = events[0];
     const currentEvent = events[1];
-    this.scrollDirection = (pastEvent.scrollY > currentEvent.scrollY) ?
-      Direction.UP : Direction.DOWN;
+    this.scrollDirection =
+      pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
@@ -188,7 +185,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateMinimiseMode(viewport: Viewport): void {
-    this.minimiseMode = viewport.scrollY >= (this.originalHeight + this.originalTop);
+    this.minimiseMode =
+      viewport.scrollY >= this.originalHeight + this.originalTop;
   }
   /**
    * Calculate if the user has scrolled pass the origin height of

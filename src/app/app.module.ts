@@ -5,7 +5,6 @@ import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from './scroll-collapse';
 import { AppComponent } from './app.component';
 
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -17,4 +16,4 @@ import { AppComponent } from './app.component';
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
