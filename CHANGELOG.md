@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v2.0.0...v3.0.0) (2018-05-29)
+
+
+### Features
+
+* **scroll-collapse:** adding angular 6 support ([e1d785e](https://github.com/thisissoon/angular-scroll-collapse/commit/e1d785e))
+
+
+### BREAKING CHANGES
+
+* **scroll-collapse:** Updated peer dependencies to rxjs 6.x and @thisissoon/angular-inviewport 3.x
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v2.0.0-rc.2...v2.0.0) (2018-02-19)
 
