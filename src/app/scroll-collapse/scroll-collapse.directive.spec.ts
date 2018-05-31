@@ -90,6 +90,29 @@ describe('ScrollCollapseDirective', () => {
       ]);
       expect(directive.isScrollingDown).toBeFalsy();
     });
+    it('should not reassign scroll direction if no scroll change', () => {
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 200, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 100, width: 1266, height: 768 }
+      ]);
+      expect(directive.isScrollingUp).toBeTruthy();
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 100, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 100, width: 1366, height: 768 }
+      ]);
+      expect(directive.isScrollingUp).toBeTruthy();
+
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 100, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 200, width: 1266, height: 768 }
+      ]);
+      expect(directive.isScrollingDown).toBeTruthy();
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 200, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 200, width: 1366, height: 768 }
+      ]);
+      expect(directive.isScrollingDown).toBeTruthy();
+    });
   });
 
   describe('minimise mode', () => {
