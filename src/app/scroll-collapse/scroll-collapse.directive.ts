@@ -175,6 +175,10 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   public calculateScrollDirection(events: Viewport[]): void {
     const pastEvent = events[0];
     const currentEvent = events[1];
+    const noScrollChange = pastEvent.scrollY === currentEvent.scrollY;
+    if (noScrollChange) {
+      return;
+    }
     this.scrollDirection =
       pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
   }
