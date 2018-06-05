@@ -53,6 +53,15 @@
   z-index: 9999;
 }
 
+.bar.bar--offset.sn-affix {
+  top: 100px;
+}
+
+.bar.bar--offset.sn-minimise {
+  background-color: #586e5d;
+  height: 50px;
+}
+
 .spacer {
   height: 150vh;
 }
