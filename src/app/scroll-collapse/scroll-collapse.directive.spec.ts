@@ -199,5 +199,42 @@ describe('ScrollCollapseDirective', () => {
       });
       expect(directive.affixMode).toBeFalsy();
     });
+
+    it('should factor in yOffset property when calculating affix mode', () => {
+      directive.originalHeight = 100;
+      directive.originalTop = 500;
+      directive.yOffset = 200;
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 0,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.affixMode).toBeFalsy();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 200,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.affixMode).toBeFalsy();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 300,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.affixMode).toBeTruthy();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 299,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.affixMode).toBeFalsy();
+    });
   });
 });

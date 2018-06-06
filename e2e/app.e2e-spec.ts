@@ -1,36 +1,51 @@
 import { AppPage } from './app.po';
 import { browser, element, by } from 'protractor';
 
-describe('ScrollCollapse Lib E2E Tests', function () {
+describe('ScrollCollapse Lib E2E Tests', function() {
   let page: AppPage;
 
-  beforeEach(() => page = new AppPage());
+  beforeEach(() => (page = new AppPage()));
 
   beforeEach(() => page.navigateTo());
 
   beforeEach(() => browser.executeScript('window.scrollTo(0,0)'));
 
   afterEach(() => {
-    browser.manage().logs().get('browser').then((browserLog: any[]) => {
-      expect(browserLog).toEqual([]);
-    });
+    browser
+      .manage()
+      .logs()
+      .get('browser')
+      .then((browserLog: any[]) => {
+        expect(browserLog).toEqual([]);
+      });
   });
 
   describe('scroll direction', () => {
     it('should add scrolling direction class', () => {
       page.scrollTo();
-      expect(page.getNavElement().getAttribute('class')).not.toContain('sn-scrolling-down');
-      expect(page.getNavElement().getAttribute('class')).not.toContain('sn-scrolling-up');
+      expect(page.getNavElement().getAttribute('class')).not.toContain(
+        'sn-scrolling-down'
+      );
+      expect(page.getNavElement().getAttribute('class')).not.toContain(
+        'sn-scrolling-up'
+      );
 
       page.scrollTo(0, 10);
       page.scrollTo(0, 200);
-      expect(page.getNavElement().getAttribute('class')).toContain('sn-scrolling-down');
-      expect(page.getNavElement().getAttribute('class')).not.toContain('sn-scrolling-up');
-
+      expect(page.getNavElement().getAttribute('class')).toContain(
+        'sn-scrolling-down'
+      );
+      expect(page.getNavElement().getAttribute('class')).not.toContain(
+        'sn-scrolling-up'
+      );
 
       page.scrollTo(0, 100);
-      expect(page.getNavElement().getAttribute('class')).not.toContain('sn-scrolling-down');
-      expect(page.getNavElement().getAttribute('class')).toContain('sn-scrolling-up');
+      expect(page.getNavElement().getAttribute('class')).not.toContain(
+        'sn-scrolling-down'
+      );
+      expect(page.getNavElement().getAttribute('class')).toContain(
+        'sn-scrolling-up'
+      );
     });
   });
 
@@ -38,10 +53,14 @@ describe('ScrollCollapse Lib E2E Tests', function () {
     it('should add "sn-minimise" class', () => {
       page.scrollTo();
       page.scrollTo(0, 10);
-      expect(page.getNavElement().getAttribute('class')).not.toContain('sn-minimise');
+      expect(page.getNavElement().getAttribute('class')).not.toContain(
+        'sn-minimise'
+      );
 
       page.scrollTo(0, 110);
-      expect(page.getNavElement().getAttribute('class')).toContain('sn-minimise');
+      expect(page.getNavElement().getAttribute('class')).toContain(
+        'sn-minimise'
+      );
     });
   });
 
@@ -49,11 +68,12 @@ describe('ScrollCollapse Lib E2E Tests', function () {
     it('should add "sn-affix" class', () => {
       page.scrollTo();
       page.scrollTo(0, 10);
-      expect(page.getBarElement().getAttribute('class')).not.toContain('sn-affix');
+      expect(page.getBarElement().getAttribute('class')).not.toContain(
+        'sn-affix'
+      );
 
       page.scrollTo(0, 768 * 3);
       expect(page.getBarElement().getAttribute('class')).toContain('sn-affix');
     });
   });
-
 });
