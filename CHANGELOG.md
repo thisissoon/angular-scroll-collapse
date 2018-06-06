@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.0.1...v3.1.0) (2018-06-06)
+
+
+### Features
+
+* **scroll directive:** add yOffset input to class setting functions ([1336f0b](https://github.com/thisissoon/angular-scroll-collapse/commit/1336f0b))
+* **yOffset:** remove yOffset logic from minimise mode calc ([92959db](https://github.com/thisissoon/angular-scroll-collapse/commit/92959db))
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.0.0...v3.0.1) (2018-05-31)
 
