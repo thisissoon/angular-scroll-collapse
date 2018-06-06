@@ -17,4 +17,8 @@ export class AppPage {
   getBarElement() {
     return element(by.css('.bar'));
   }
+
+  getOffsetBarElement() {
+    return element(by.css('.bar--offset'));
+  }
 }
