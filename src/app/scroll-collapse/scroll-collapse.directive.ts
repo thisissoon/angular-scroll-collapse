@@ -76,7 +76,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   @Input() public debounce = 0;
   /**
    * Number of pixels before the elements originalTop
-   * position is scroll to that the classes will be applied.
+   * position is scroll to that the sn-affix class will be applied.
    * This value will need to take into account elements which become
    * fixed above this element while scrolling as they reduce
    * the height of the document and the scrollY number.
@@ -201,7 +201,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public calculateMinimiseMode(viewport: Viewport): void {
     this.minimiseMode =
-      viewport.scrollY >= this.originalHeight + this.originalTop - this.yOffset;
+      viewport.scrollY >= this.originalHeight + this.originalTop;
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
