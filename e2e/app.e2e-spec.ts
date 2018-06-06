@@ -75,22 +75,5 @@ describe('ScrollCollapse Lib E2E Tests', function() {
       page.scrollTo(0, 768 * 3);
       expect(page.getBarElement().getAttribute('class')).toContain('sn-affix');
     });
-    it('should account for yOffset when adding "sn-affix" class', () => {
-      page.scrollTo();
-      page.scrollTo(0, 2060);
-      expect(page.getOffsetBarElement().getAttribute('class')).not.toContain(
-        'sn-affix'
-      );
-
-      page.scrollTo(0, 2061);
-      expect(page.getOffsetBarElement().getAttribute('class')).toContain(
-        'sn-affix'
-      );
-
-      page.scrollTo(0, 2060);
-      expect(page.getOffsetBarElement().getAttribute('class')).not.toContain(
-        'sn-affix'
-      );
-    });
   });
 });
