@@ -104,6 +104,15 @@ In this scenario the nav element will have the class `sn-affix` added when the u
 }
 ```
 
+A `[yOffset` can also be applied. Here `sn-affix` will be added when the top of the viewport is within 200 pixels of the top of the nav.
+
+```html
+<header>...</header>
+<nav class="foo" snScrollCollapse [yOffset]="200">
+  ...
+</nav>
+```
+
 ### Minimise mode
 
 In this scenario the nav element will have the class `sn-minimise` added when the user scrolls 100px (the original height of the element) down the page.
