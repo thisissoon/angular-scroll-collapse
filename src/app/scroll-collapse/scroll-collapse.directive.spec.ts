@@ -3,6 +3,7 @@ import { ElementRef, SimpleChanges } from '@angular/core';
 import { WindowRef } from '@thisissoon/angular-inviewport';
 
 import { ScrollCollapseDirective } from './scroll-collapse.directive';
+import { Direction } from './shared/direction.enum';
 
 describe('ScrollCollapseDirective', () => {
   let node: HTMLElement;
@@ -112,6 +113,19 @@ describe('ScrollCollapseDirective', () => {
         { scrollX: 0, scrollY: 200, width: 1366, height: 768 }
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
+    });
+    it('should emit scroll direction event on scroll', () => {
+      const spy = spyOn(directive.scrollDirectionChange, 'emit');
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 0, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 100, width: 1266, height: 768 }
+      ]);
+      expect(spy).toHaveBeenCalledWith(Direction.DOWN);
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 100, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 0, width: 1266, height: 768 }
+      ]);
+      expect(spy).toHaveBeenCalledWith(Direction.UP);
     });
   });
 

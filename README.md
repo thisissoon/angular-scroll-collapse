@@ -5,7 +5,7 @@
 [![Commitizen friendly][commitizen-badge]][commitizen]
 [![code style: prettier][prettier-badge]][prettier-badge-url]
 
-A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
+A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element and emits an appropriate event. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
 
 This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0][apfv5].
 
@@ -60,15 +60,15 @@ A working example can be found inside [/src](https://github.com/thisissoon/angul
 ### Scroll direction
 
 ```html
-<nav class="foo" snScrollCollapse>
+<nav class="foo" snScrollCollapse (scrollDirectionChange)="scrollDirectionHandler($event)">
   ...
 </nav>
 ```
 
 ```css
 .foo {
-  left: 0;
   height: 100px;
+  left: 0;
   position: fixed;
   right: 0;
   top: 0;

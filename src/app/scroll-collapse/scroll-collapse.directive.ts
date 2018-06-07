@@ -5,7 +5,9 @@ import {
   Input,
   NgZone,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
 import {
@@ -47,6 +49,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   private scrollDirection: Direction;
+  /**
+   * Emits scroll direction on scroll or window resize.
+   *
+   * @memberof ScrollCollapseDirective
+   */
+  @Output() scrollDirectionChange = new EventEmitter<Direction>();
   /**
    * Original offsetTop of element
    *
@@ -192,6 +200,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     }
     this.scrollDirection =
       pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
+    this.scrollDirectionChange.emit(this.scrollDirection);
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
