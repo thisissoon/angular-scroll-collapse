@@ -3,7 +3,7 @@ import { ElementRef, SimpleChanges } from '@angular/core';
 import { WindowRef } from '@thisissoon/angular-inviewport';
 
 import { ScrollCollapseDirective } from './scroll-collapse.directive';
-import { Direction } from '../../../dist';
+import { Direction } from './shared/direction.enum';
 
 describe('ScrollCollapseDirective', () => {
   let node: HTMLElement;
