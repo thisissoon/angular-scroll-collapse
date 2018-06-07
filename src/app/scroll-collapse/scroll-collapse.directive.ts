@@ -5,7 +5,9 @@ import {
   Input,
   NgZone,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
 import {
@@ -46,7 +48,13 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  private scrollDirection: Direction;
+  private lastScrollDirection: Direction;
+  /**
+   * Emits scroll direction on scroll or window resize.
+   *
+   * @memberof ScrollCollapseDirective
+   */
+  @Output() scrollDirectionEvents = new EventEmitter<Direction>();
   /**
    * Original offsetTop of element
    *
@@ -93,7 +101,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   @HostBinding(classes.directionUpClass)
   public get isScrollingUp(): boolean {
-    return this.scrollDirection === Direction.UP;
+    return this.lastScrollDirection === Direction.UP;
   }
   /**
    * Returns true if last scroll direction is DOWN
@@ -103,7 +111,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   @HostBinding(classes.directionDownClass)
   public get isScrollingDown(): boolean {
-    return this.scrollDirection === Direction.DOWN;
+    return this.lastScrollDirection === Direction.DOWN;
   }
   /**
    * Returns true if the user has scrolled pass the original `offsetTop`
@@ -190,8 +198,9 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     if (noScrollChange) {
       return;
     }
-    this.scrollDirection =
+    this.lastScrollDirection =
       pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
+    this.scrollDirectionEvents.emit(this.lastScrollDirection);
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
