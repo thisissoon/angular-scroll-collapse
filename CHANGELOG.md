@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.1.0...v3.2.0) (2018-06-07)
+
+
+### Features
+
+* **scroll-collapse:** emit scroll direction events ([80c6eee](https://github.com/thisissoon/angular-scroll-collapse/commit/80c6eee))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.0.1...v3.1.0) (2018-06-06)
 
