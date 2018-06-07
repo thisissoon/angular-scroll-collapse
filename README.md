@@ -60,7 +60,7 @@ A working example can be found inside [/src](https://github.com/thisissoon/angul
 ### Scroll direction
 
 ```html
-<nav class="foo" snScrollCollapse (scrollDirectionEvents)="scrollDirectionHandler($event)">
+<nav class="foo" snScrollCollapse (scrollDirectionChange)="scrollDirectionHandler($event)">
   ...
 </nav>
 ```

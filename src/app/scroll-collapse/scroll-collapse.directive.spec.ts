@@ -115,7 +115,7 @@ describe('ScrollCollapseDirective', () => {
       expect(directive.isScrollingDown).toBeTruthy();
     });
     it('should emit scroll direction event on scroll', () => {
-      const spy = spyOn(directive.scrollDirectionEvents, 'emit');
+      const spy = spyOn(directive.scrollDirectionChange, 'emit');
       directive.calculateScrollDirection([
         { scrollX: 0, scrollY: 0, width: 1266, height: 768 },
         { scrollX: 0, scrollY: 100, width: 1266, height: 768 }
