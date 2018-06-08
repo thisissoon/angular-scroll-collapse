@@ -114,25 +114,33 @@ describe('ScrollCollapseDirective', () => {
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
     });
-    it('should emit scroll direction event on scroll', () => {
+    it('should emit scroll direction event on scroll direction change', () => {
       const spy = spyOn(directive.scrollDirectionChange, 'emit');
+
       directive.calculateScrollDirection([
         { scrollX: 0, scrollY: 0, width: 1266, height: 768 },
         { scrollX: 0, scrollY: 100, width: 1266, height: 768 }
       ]);
       expect(spy).toHaveBeenCalledWith(Direction.DOWN);
       spy.calls.reset();
+
       directive.calculateScrollDirection([
         { scrollX: 0, scrollY: 100, width: 1266, height: 768 },
         { scrollX: 0, scrollY: 0, width: 1266, height: 768 }
       ]);
       expect(spy).toHaveBeenCalledWith(Direction.UP);
+      spy.calls.reset();
+
+      directive.calculateScrollDirection([
+        { scrollX: 0, scrollY: 50, width: 1266, height: 768 },
+        { scrollX: 0, scrollY: 0, width: 1266, height: 768 }
+      ]);
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
   describe('minimise mode', () => {
-    it('should calculate minimise mode and emit event', () => {
-      const spy = spyOn(directive.minimiseChange, 'emit');
+    it('should calculate minimise mode', () => {
       directive.originalHeight = 100;
 
       directive.calculateMinimiseMode({
@@ -142,8 +150,6 @@ describe('ScrollCollapseDirective', () => {
         height: 768
       });
       expect(directive.minimiseMode).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith(false);
-      spy.calls.reset();
 
       directive.calculateMinimiseMode({
         scrollX: 0,
@@ -152,6 +158,26 @@ describe('ScrollCollapseDirective', () => {
         height: 768
       });
       expect(directive.minimiseMode).toBeTruthy();
+
+      directive.calculateMinimiseMode({
+        scrollX: 0,
+        scrollY: 99,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.minimiseMode).toBeFalsy();
+    });
+
+    it('should emit minimise event on minimise mode change', () => {
+      const spy = spyOn(directive.minimiseChange, 'emit');
+      directive.originalHeight = 100;
+
+      directive.calculateMinimiseMode({
+        scrollX: 0,
+        scrollY: 200,
+        width: 1366,
+        height: 768
+      });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
 
@@ -161,8 +187,25 @@ describe('ScrollCollapseDirective', () => {
         width: 1366,
         height: 768
       });
-      expect(directive.minimiseMode).toBeFalsy();
       expect(spy).toHaveBeenCalledWith(false);
+      spy.calls.reset();
+
+      directive.calculateMinimiseMode({
+        scrollX: 0,
+        scrollY: 200,
+        width: 1366,
+        height: 768
+      });
+      expect(spy).toHaveBeenCalledWith(true);
+      spy.calls.reset();
+
+      directive.calculateMinimiseMode({
+        scrollX: 0,
+        scrollY: 250,
+        width: 1366,
+        height: 768
+      });
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('should factor in element offsetTop when calculating minimise mode', () => {
@@ -195,8 +238,7 @@ describe('ScrollCollapseDirective', () => {
   });
 
   describe('affix mode', () => {
-    it('should calculate affix mode and emit event', () => {
-      const spy = spyOn(directive.affixChange, 'emit');
+    it('should calculate affix mode', () => {
       directive.originalTop = 100;
 
       directive.calculateAffixMode({
@@ -206,8 +248,6 @@ describe('ScrollCollapseDirective', () => {
         height: 768
       });
       expect(directive.affixMode).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith(false);
-      spy.calls.reset();
 
       directive.calculateAffixMode({
         scrollX: 0,
@@ -216,6 +256,26 @@ describe('ScrollCollapseDirective', () => {
         height: 768
       });
       expect(directive.affixMode).toBeTruthy();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 99,
+        width: 1366,
+        height: 768
+      });
+      expect(directive.affixMode).toBeFalsy();
+    });
+
+    it('should emit affix event on affix mode change', () => {
+      const spy = spyOn(directive.affixChange, 'emit');
+      directive.originalTop = 100;
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 200,
+        width: 1366,
+        height: 768
+      });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
 
@@ -225,8 +285,25 @@ describe('ScrollCollapseDirective', () => {
         width: 1366,
         height: 768
       });
-      expect(directive.affixMode).toBeFalsy();
       expect(spy).toHaveBeenCalledWith(false);
+      spy.calls.reset();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 200,
+        width: 1366,
+        height: 768
+      });
+      expect(spy).toHaveBeenCalledWith(true);
+      spy.calls.reset();
+
+      directive.calculateAffixMode({
+        scrollX: 0,
+        scrollY: 250,
+        width: 1366,
+        height: 768
+      });
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('should factor in yOffset property when calculating affix mode', () => {

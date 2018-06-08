@@ -210,9 +210,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     if (noScrollChange) {
       return;
     }
-    this.scrollDirection =
+    const newScrollDirection =
       pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
-    this.scrollDirectionChange.emit(this.scrollDirection);
+    if (this.scrollDirection !== newScrollDirection) {
+      this.scrollDirection = newScrollDirection;
+      this.scrollDirectionChange.emit(this.scrollDirection);
+    }
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
@@ -221,9 +224,12 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateMinimiseMode(viewport: Viewport): void {
-    this.minimiseMode =
+    const newMinimiseMode =
       viewport.scrollY >= this.originalHeight + this.originalTop;
-    this.minimiseChange.emit(this.minimiseMode);
+    if (this.minimiseMode !== newMinimiseMode) {
+      this.minimiseMode = newMinimiseMode;
+      this.minimiseChange.emit(this.minimiseMode);
+    }
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
@@ -232,8 +238,11 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateAffixMode(viewport: Viewport): void {
-    this.affixMode = viewport.scrollY >= this.originalTop - this.yOffset;
-    this.affixChange.emit(this.affixMode);
+    const newAffixMode = viewport.scrollY >= this.originalTop - this.yOffset;
+    if (this.affixMode !== newAffixMode) {
+      this.affixMode = newAffixMode;
+      this.affixChange.emit(this.affixMode);
+    }
   }
   /**
    * Return current viewport values
