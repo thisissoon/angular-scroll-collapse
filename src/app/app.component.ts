@@ -8,6 +8,12 @@ import { Direction } from '..';
 })
 export class AppComponent {
   scrollDirectionHandler(event: Direction) {
-    console.log(event);
+    console.log('scrollDirection: ', event);
+  }
+  affixHandler(event: boolean) {
+    console.log('affix: ', event);
+  }
+  minimiseHandler(event: boolean) {
+    console.log('minimise: ', event);
   }
 }

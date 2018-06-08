@@ -5,7 +5,9 @@
 [![Commitizen friendly][commitizen-badge]][commitizen]
 [![code style: prettier][prettier-badge]][prettier-badge-url]
 
-A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element and emits an appropriate event. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
+A simple lightweight library for [Angular][angular] that detects scroll direction and adds a `sn-scrolling-up` or `sn-scrolling-down` class to the element. The library can also detect when the user has scrolled passed the element and apply a `sn-affix` class. Useful for make a element sticky when the user has scrolled beyond it. This library can will also apply `sn-minimise` class after the user has scrolled beyond the height of the element.
+
+Appropriate events for the above classes are also emitted.
 
 This is a simple library for [Angular][angular], implemented in the [Angular Package Format v5.0][apfv5].
 
@@ -90,7 +92,7 @@ In this scenario the nav element will have the class `sn-affix` added when the u
 
 ```html
 <header>...</header>
-<nav class="foo" snScrollCollapse>
+<nav class="foo" snScrollCollapse (affixChange)="affixHandler($event)">
   ...
 </nav>
 ```
@@ -118,7 +120,7 @@ A `[yOffset]` can also be applied. Here `sn-affix` will be added when the top of
 In this scenario the nav element will have the class `sn-minimise` added when the user scrolls 100px (the original height of the element) down the page.
 
 ```html
-<header class="foo" snScrollCollapse>
+<header class="foo" snScrollCollapse (minimiseChange)="minimiseHandler($event)">
   ...
 </header>
 ```
