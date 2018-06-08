@@ -121,12 +121,24 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   @HostBinding(classes.affixClass) public affixMode = false;
   /**
+   * Emits affix boolean on scroll or window resize.
+   *
+   * @memberof ScrollCollapseDirective
+   */
+  @Output() affixChange = new EventEmitter<Boolean>();
+  /**
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
    * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.minimiseClass) public minimiseMode = false;
+  /**
+   * Emits affix boolean on scroll or window resize.
+   *
+   * @memberof ScrollCollapseDirective
+   */
+  @Output() minimiseChange = new EventEmitter<Boolean>();
   /**
    * Creates an instance of ScrollCollapseDirective.
    * @memberof ScrollCollapseDirective
@@ -211,6 +223,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   public calculateMinimiseMode(viewport: Viewport): void {
     this.minimiseMode =
       viewport.scrollY >= this.originalHeight + this.originalTop;
+    this.minimiseChange.emit(this.minimiseMode);
   }
   /**
    * Calculate if the user has scrolled pass the origin height of
@@ -220,6 +233,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public calculateAffixMode(viewport: Viewport): void {
     this.affixMode = viewport.scrollY >= this.originalTop - this.yOffset;
+    this.affixChange.emit(this.affixMode);
   }
   /**
    * Return current viewport values

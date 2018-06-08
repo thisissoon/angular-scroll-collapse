@@ -1,6 +1,12 @@
 <h1>Scroll down ↓</h1>
 
-<nav class="nav" snScrollCollapse (scrollDirectionChange)="scrollDirectionHandler($event)">
+<nav
+  class="nav"
+  snScrollCollapse
+  (scrollDirectionChange)="scrollDirectionHandler($event)"
+  (affixChange)="affixHandler($event)"
+  (minimiseChange)="minimiseHandler($event)"
+>
   My nav&nbsp;
   <span class="down">Going down</span>
   <span class="up">Going up</span>
