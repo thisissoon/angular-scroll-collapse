@@ -1,10 +1,13 @@
 :host {
   display: block;
   font-family: Roboto, sans-serif;
+}
+
+.nav.sn-affix {
   padding-top: 100px;
 }
 
-.nav {
+.navInner {
   align-items: center;
   background-color: #563d7c;
   color: #fff;
@@ -12,11 +15,19 @@
   height: 100px;
   justify-content: center;
   left: 0;
-  position: fixed;
   right: 0;
   text-align: center;
   top: 0;
   transition: all 0.35s ease-in-out;
+
+  .nav.sn-affix & {
+    position: fixed;
+  }
+
+  .nav.sn-minimise & {
+    background-color: #007bff;
+    height: 50px;
+  }
 }
 
 .nav .down,
@@ -27,11 +38,6 @@
 .nav.sn-scrolling-down .down,
 .nav.sn-scrolling-up .up {
   display: block;
-}
-
-.nav.sn-minimise {
-  background-color: #007bff;
-  height: 50px;
 }
 
 .bar {
