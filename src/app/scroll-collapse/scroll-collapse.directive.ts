@@ -60,7 +60,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  public originalTop = 0;
+  public elementTop = 0;
   /**
    * Original offsetHeight of element
    *
@@ -83,7 +83,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   @Input() public debounce = 0;
   /**
-   * Number of pixels before the elements originalTop
+   * Number of pixels before the elements elementTop
    * position is scroll to that the sn-affix class will be applied.
    * This value will need to take into account elements which become
    * fixed above this element while scrolling as they reduce
@@ -93,6 +93,15 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   @Input() public yOffset = 0;
+  /**
+   * Update element top value when scrolling down. Can help
+   * with elementTop and henve minimise and affix mode
+   * and event accuracy.
+   *
+   * @default false
+   * @memberof ScrollCollapseDirective
+   */
+  @Input() public updateElementTopOnScroll = false;
   /**
    * Returns true if last scroll direction is UP
    *
@@ -155,14 +164,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public ngAfterViewInit(): void {
-    const el: HTMLElement = this.el.nativeElement;
-    // Check if `getBoundingClientRect` is a function in case running
-    // in an platform without the DOM
-    if (typeof el.getBoundingClientRect === 'function') {
-      const elBounds = el.getBoundingClientRect();
-      this.originalTop = elBounds.top + this.windowRef.scrollY;
-    }
-    this.originalHeight = el.offsetHeight;
+    this.updateElementTop();
+    this.originalHeight = this.el.nativeElement.offsetHeight;
 
     this.ngZone.runOutsideAngular(() => {
       merge(
@@ -191,11 +194,16 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public onScrollOrResizeEvent(events: Viewport[]): void {
-    const previousEvent = events[0];
     const currentEvent = events[1];
     this.calculateScrollDirection(events);
     this.calculateMinimiseMode(currentEvent);
     this.calculateAffixMode(currentEvent);
+    if (
+      this.scrollDirection === Direction.DOWN &&
+      this.updateElementTopOnScroll
+    ) {
+      this.updateElementTop();
+    }
   }
   /**
    * Calculate last scroll direction by comparing y scroll position
@@ -225,7 +233,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public calculateMinimiseMode(viewport: Viewport): void {
     const newMinimiseMode =
-      viewport.scrollY >= this.originalHeight + this.originalTop;
+      viewport.scrollY >= this.originalHeight + this.elementTop;
     if (this.minimiseMode !== newMinimiseMode) {
       this.minimiseMode = newMinimiseMode;
       this.minimiseChange.emit(this.minimiseMode);
@@ -238,7 +246,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateAffixMode(viewport: Viewport): void {
-    const newAffixMode = viewport.scrollY >= this.originalTop - this.yOffset;
+    const newAffixMode = viewport.scrollY >= this.elementTop - this.yOffset;
     if (this.affixMode !== newAffixMode) {
       this.affixMode = newAffixMode;
       this.affixChange.emit(this.affixMode);
@@ -256,6 +264,19 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
       scrollY: this.windowRef.scrollY,
       scrollX: this.windowRef.scrollX
     };
+  }
+
+  public updateElementTop() {
+    const el: HTMLElement = this.el.nativeElement;
+    // Check if `getBoundingClientRect` is a function in case running
+    // in an platform without the DOM
+    if (
+      !this.minimiseMode &&
+      !this.affixMode &&
+      typeof el.getBoundingClientRect === 'function'
+    ) {
+      this.elementTop = el.getBoundingClientRect().top + this.windowRef.scrollY;
+    }
   }
   /**
    * trigger `ngUnsubscribe` complete on
