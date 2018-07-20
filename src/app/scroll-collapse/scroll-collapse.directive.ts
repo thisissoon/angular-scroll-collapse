@@ -87,7 +87,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * position is scroll to that the sn-affix class will be applied.
    * This value will need to take into account elements which become
    * fixed above this element while scrolling as they reduce
-   * the height of the document and the scrollY number.
+   * the height of the document and the pageYOffset number.
    *
    * @default 0
    * @memberof ScrollCollapseDirective
@@ -160,7 +160,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     // in an platform without the DOM
     if (typeof el.getBoundingClientRect === 'function') {
       const elBounds = el.getBoundingClientRect();
-      this.originalTop = elBounds.top + this.windowRef.scrollY;
+      this.originalTop = elBounds.top + this.windowRef.pageYOffset;
     }
     this.originalHeight = el.offsetHeight;
 
@@ -206,12 +206,14 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   public calculateScrollDirection(events: Viewport[]): void {
     const pastEvent = events[0];
     const currentEvent = events[1];
-    const noScrollChange = pastEvent.scrollY === currentEvent.scrollY;
+    const noScrollChange = pastEvent.pageYOffset === currentEvent.pageYOffset;
     if (noScrollChange) {
       return;
     }
     const newScrollDirection =
-      pastEvent.scrollY > currentEvent.scrollY ? Direction.UP : Direction.DOWN;
+      pastEvent.pageYOffset > currentEvent.pageYOffset
+        ? Direction.UP
+        : Direction.DOWN;
     if (this.scrollDirection !== newScrollDirection) {
       this.scrollDirection = newScrollDirection;
       this.scrollDirectionChange.emit(this.scrollDirection);
@@ -225,7 +227,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public calculateMinimiseMode(viewport: Viewport): void {
     const newMinimiseMode =
-      viewport.scrollY >= this.originalHeight + this.originalTop;
+      viewport.pageYOffset >= this.originalHeight + this.originalTop;
     if (this.minimiseMode !== newMinimiseMode) {
       this.minimiseMode = newMinimiseMode;
       this.minimiseChange.emit(this.minimiseMode);
@@ -238,7 +240,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @memberof ScrollCollapseDirective
    */
   public calculateAffixMode(viewport: Viewport): void {
-    const newAffixMode = viewport.scrollY >= this.originalTop - this.yOffset;
+    const newAffixMode =
+      viewport.pageYOffset >= this.originalTop - this.yOffset;
     if (this.affixMode !== newAffixMode) {
       this.affixMode = newAffixMode;
       this.affixChange.emit(this.affixMode);
@@ -253,8 +256,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     return {
       height: this.windowRef.innerHeight,
       width: this.windowRef.innerWidth,
-      scrollY: this.windowRef.scrollY,
-      scrollX: this.windowRef.scrollX
+      pageYOffset: this.windowRef.pageYOffset,
+      pageXOffset: this.windowRef.pageXOffset
     };
   }
   /**
