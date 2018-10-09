@@ -19,7 +19,7 @@ describe('ScrollCollapseDirective', () => {
       run: jasmine.createSpy('run').and.callFake(fn => fn()),
       runOutsideAngular: jasmine
         .createSpy('runOutsideAngular')
-        .and.callFake(fn => fn())
+        .and.callFake(fn => fn()),
     };
     windowRef = {
       triggerEvent: null,
@@ -28,7 +28,7 @@ describe('ScrollCollapseDirective', () => {
       innerWidth: 1366,
       innerHeight: 768,
       addEventListener: (name, fn) => (windowRef.triggerEvent = fn),
-      removeEventListener: () => null
+      removeEventListener: () => null,
     };
     directive = new ScrollCollapseDirective(el, ngZone, windowRef);
     directive.ngAfterViewInit();
@@ -39,7 +39,7 @@ describe('ScrollCollapseDirective', () => {
       const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
       const events = [
         { pageXOffset: 0, pageYOffset: 0, width: 1366, height: 768 },
-        { pageXOffset: 0, pageYOffset: 50, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 50, width: 1366, height: 768 },
       ];
       directive.debounce = 100;
       directive.ngAfterViewInit();
@@ -72,42 +72,42 @@ describe('ScrollCollapseDirective', () => {
     it('should calculate scroll direction', () => {
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 0, width: 1366, height: 768 },
-        { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 },
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 },
-        { pageXOffset: 0, pageYOffset: 300, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 300, width: 1366, height: 768 },
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 },
-        { pageXOffset: 0, pageYOffset: 100, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 100, width: 1366, height: 768 },
       ]);
       expect(directive.isScrollingDown).toBeFalsy();
     });
     it('should not reassign scroll direction if no scroll change', () => {
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 200, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 }
+        { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 },
       ]);
       expect(directive.isScrollingUp).toBeTruthy();
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 100, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 100, width: 1366, height: 768 },
       ]);
       expect(directive.isScrollingUp).toBeTruthy();
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 200, width: 1266, height: 768 }
+        { pageXOffset: 0, pageYOffset: 200, width: 1266, height: 768 },
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 200, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 }
+        { pageXOffset: 0, pageYOffset: 200, width: 1366, height: 768 },
       ]);
       expect(directive.isScrollingDown).toBeTruthy();
     });
@@ -116,21 +116,21 @@ describe('ScrollCollapseDirective', () => {
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 0, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 }
+        { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 },
       ]);
       expect(spy).toHaveBeenCalledWith(Direction.DOWN);
       spy.calls.reset();
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 100, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 0, width: 1266, height: 768 }
+        { pageXOffset: 0, pageYOffset: 0, width: 1266, height: 768 },
       ]);
       expect(spy).toHaveBeenCalledWith(Direction.UP);
       spy.calls.reset();
 
       directive.calculateScrollDirection([
         { pageXOffset: 0, pageYOffset: 50, width: 1266, height: 768 },
-        { pageXOffset: 0, pageYOffset: 0, width: 1266, height: 768 }
+        { pageXOffset: 0, pageYOffset: 0, width: 1266, height: 768 },
       ]);
       expect(spy).not.toHaveBeenCalled();
     });
@@ -144,7 +144,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 0,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeFalsy();
 
@@ -152,7 +152,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeTruthy();
 
@@ -160,7 +160,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 99,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeFalsy();
     });
@@ -173,7 +173,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
@@ -182,7 +182,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 99,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(false);
       spy.calls.reset();
@@ -191,7 +191,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
@@ -200,7 +200,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 250,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).not.toHaveBeenCalled();
     });
@@ -212,7 +212,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 0,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeFalsy();
 
@@ -220,7 +220,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeTruthy();
 
@@ -228,7 +228,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 199,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.minimiseMode).toBeFalsy();
     });
@@ -242,7 +242,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 0,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
 
@@ -250,7 +250,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeTruthy();
 
@@ -258,7 +258,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 99,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
     });
@@ -271,7 +271,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
@@ -280,7 +280,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 99,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(false);
       spy.calls.reset();
@@ -289,7 +289,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).toHaveBeenCalledWith(true);
       spy.calls.reset();
@@ -298,7 +298,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 250,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(spy).not.toHaveBeenCalled();
     });
@@ -311,7 +311,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 0,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
 
@@ -319,7 +319,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 200,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
 
@@ -327,7 +327,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 300,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeTruthy();
 
@@ -335,7 +335,7 @@ describe('ScrollCollapseDirective', () => {
         pageXOffset: 0,
         pageYOffset: 299,
         width: 1366,
-        height: 768
+        height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
     });

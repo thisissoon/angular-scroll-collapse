@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
 import {
@@ -17,7 +17,7 @@ import {
   map,
   startWith,
   distinctUntilChanged,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { WindowRef } from '@thisissoon/angular-inviewport';
 
@@ -40,7 +40,7 @@ import * as classes from './shared/classes';
  *
  */
 @Directive({
-  selector: '[snScrollCollapse]'
+  selector: '[snScrollCollapse]',
 })
 export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
@@ -153,7 +153,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   constructor(
     private el: ElementRef,
     private ngZone: NgZone,
-    private windowRef: WindowRef
+    private windowRef: WindowRef,
   ) {}
   /**
    * Subscribe to window resize events as an observable
@@ -174,7 +174,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       merge(
         fromEvent(this.windowRef as any, eventData.eventScroll),
-        fromEvent(this.windowRef as any, eventData.eventResize)
+        fromEvent(this.windowRef as any, eventData.eventResize),
       )
         .pipe(
           startWith(null),
@@ -183,10 +183,10 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
           distinctUntilChanged(),
           // Do not apply debounce operator if debounce is set to 0
           this.debounce ? debounceTime(this.debounce) : tap(null),
-          takeUntil(this.ngUnsubscribe$)
+          takeUntil(this.ngUnsubscribe$),
         )
         .subscribe((events: Viewport[]) =>
-          this.ngZone.run(() => this.onScrollOrResizeEvent(events))
+          this.ngZone.run(() => this.onScrollOrResizeEvent(events)),
         );
     });
   }
@@ -264,7 +264,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
       height: this.windowRef.innerHeight,
       width: this.windowRef.innerWidth,
       pageYOffset: this.windowRef.pageYOffset,
-      pageXOffset: this.windowRef.pageXOffset
+      pageXOffset: this.windowRef.pageXOffset,
     };
   }
   /**

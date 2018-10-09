@@ -9,11 +9,11 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     InViewportModule.forRoot([
-      { provide: WindowRef, useFactory: () => window }
+      { provide: WindowRef, useFactory: () => window },
     ]),
-    ScrollCollapseModule
+    ScrollCollapseModule,
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

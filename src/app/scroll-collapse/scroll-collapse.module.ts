@@ -15,6 +15,6 @@ import { ScrollCollapseDirective } from './scroll-collapse.directive';
 @NgModule({
   imports: [InViewportModule],
   declarations: [ScrollCollapseDirective],
-  exports: [ScrollCollapseDirective]
+  exports: [ScrollCollapseDirective],
 })
 export class ScrollCollapseModule {}
