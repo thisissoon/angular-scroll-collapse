@@ -51,7 +51,7 @@
   },
   "peerDependencies": {
     "@angular/core": ">=5.0.0 <7.0.0",
-    "@thisissoon/angular-inviewport": ">=3.0.0 <4.0.0",
+    "@thisissoon/angular-inviewport": ">=4.0.0 <5.0.0",
     "rxjs": ">=6.0.0 <7.0.0"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "@angular/platform-browser": "^6.1.9",
     "@angular/platform-browser-dynamic": "^6.1.9",
     "@angular/router": "^6.1.9",
-    "@thisissoon/angular-inviewport": "^3.0.1",
+    "@thisissoon/angular-inviewport": "^4.0.0",
     "@thisissoon/schematics": "^1.0.0-alpha.18",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",

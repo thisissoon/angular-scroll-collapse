@@ -1,6 +1,5 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { ElementRef, SimpleChanges } from '@angular/core';
-import { WindowRef } from '@thisissoon/angular-inviewport';
 
 import { ScrollCollapseDirective } from './scroll-collapse.directive';
 import { Direction } from './shared/direction.enum';
