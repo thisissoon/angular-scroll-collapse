@@ -35,34 +35,31 @@ describe('ScrollCollapseDirective', () => {
   });
 
   describe('scroll event', () => {
-    it(
-      'should call event handler',
-      fakeAsync(() => {
-        const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
-        const events = [
-          { pageXOffset: 0, pageYOffset: 0, width: 1366, height: 768 },
-          { pageXOffset: 0, pageYOffset: 50, width: 1366, height: 768 }
-        ];
-        directive.debounce = 100;
-        directive.ngAfterViewInit();
-        windowRef.triggerEvent();
-        tick(50);
-        expect(spy).not.toHaveBeenCalled();
-        windowRef.pageYOffset = 50;
-        windowRef.triggerEvent();
-        tick(100);
-        expect(spy).toHaveBeenCalledWith(events);
-        expect(directive.isScrollingUp).toBeFalsy();
-        expect(directive.isScrollingDown).toBeTruthy();
+    it('should call event handler', fakeAsync(() => {
+      const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
+      const events = [
+        { pageXOffset: 0, pageYOffset: 0, width: 1366, height: 768 },
+        { pageXOffset: 0, pageYOffset: 50, width: 1366, height: 768 }
+      ];
+      directive.debounce = 100;
+      directive.ngAfterViewInit();
+      windowRef.triggerEvent();
+      tick(50);
+      expect(spy).not.toHaveBeenCalled();
+      windowRef.pageYOffset = 50;
+      windowRef.triggerEvent();
+      tick(100);
+      expect(spy).toHaveBeenCalledWith(events);
+      expect(directive.isScrollingUp).toBeFalsy();
+      expect(directive.isScrollingDown).toBeTruthy();
 
-        windowRef.pageYOffset = 0;
-        windowRef.triggerEvent();
-        tick(100);
-        expect(spy.calls.mostRecent().args).toEqual([events.reverse()]);
-        expect(directive.isScrollingUp).toBeTruthy();
-        expect(directive.isScrollingDown).toBeFalsy();
-      })
-    );
+      windowRef.pageYOffset = 0;
+      windowRef.triggerEvent();
+      tick(100);
+      expect(spy.calls.mostRecent().args).toEqual([events.reverse()]);
+      expect(directive.isScrollingUp).toBeTruthy();
+      expect(directive.isScrollingDown).toBeFalsy();
+    }));
 
     it('should remove event handler on destroy', () => {
       const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();

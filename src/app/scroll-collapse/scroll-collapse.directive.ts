@@ -54,7 +54,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  @Output() scrollDirectionChange = new EventEmitter<Direction>();
+  @Output()
+  scrollDirectionChange = new EventEmitter<Direction>();
   /**
    * Original offsetTop of element
    *
@@ -81,7 +82,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @default 0
    * @memberof ScrollCollapseDirective
    */
-  @Input() public debounce = 0;
+  @Input()
+  public debounce = 0;
   /**
    * Number of pixels before the elements originalTop
    * position is scroll to that the sn-affix class will be applied.
@@ -92,7 +94,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    * @default 0
    * @memberof ScrollCollapseDirective
    */
-  @Input() public yOffset = 0;
+  @Input()
+  public yOffset = 0;
   /**
    * Returns true if last scroll direction is UP
    *
@@ -119,26 +122,30 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    *
    * @memberof ScrollCollapseDirective
    */
-  @HostBinding(classes.affixClass) public affixMode = false;
+  @HostBinding(classes.affixClass)
+  public affixMode = false;
   /**
    * Emits affix boolean on scroll or window resize.
    *
    * @memberof ScrollCollapseDirective
    */
-  @Output() affixChange = new EventEmitter<Boolean>();
+  @Output()
+  affixChange = new EventEmitter<Boolean>();
   /**
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
    *
    * @memberof ScrollCollapseDirective
    */
-  @HostBinding(classes.minimiseClass) public minimiseMode = false;
+  @HostBinding(classes.minimiseClass)
+  public minimiseMode = false;
   /**
    * Emits affix boolean on scroll or window resize.
    *
    * @memberof ScrollCollapseDirective
    */
-  @Output() minimiseChange = new EventEmitter<Boolean>();
+  @Output()
+  minimiseChange = new EventEmitter<Boolean>();
   /**
    * Creates an instance of ScrollCollapseDirective.
    * @memberof ScrollCollapseDirective
