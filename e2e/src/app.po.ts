@@ -10,6 +10,14 @@ export class AppPage {
     browser.sleep(100);
   }
 
+  resize(width: number, height: number) {
+    browser.driver
+      .manage()
+      .window()
+      .setSize(width, height);
+    browser.sleep(100);
+  }
+
   getNavElement() {
     return element(by.css('.nav'));
   }

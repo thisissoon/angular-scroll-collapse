@@ -10,6 +10,7 @@ describe('ScrollCollapseDirective', () => {
   let directive: ScrollCollapseDirective;
   let ngZone;
   let windowRef;
+  let cdRef;
 
   beforeEach(() => {
     node = document.createElement('p');
@@ -21,39 +22,42 @@ describe('ScrollCollapseDirective', () => {
         .and.callFake(fn => fn()),
     };
     windowRef = {
-      triggerEvent: null,
+      triggerEvent: {},
       pageXOffset: 0,
       pageYOffset: 0,
       innerWidth: 1366,
       innerHeight: 768,
-      addEventListener: (name, fn) => (windowRef.triggerEvent = fn),
+      addEventListener: (name, fn) => (windowRef.triggerEvent[name] = fn),
       removeEventListener: () => null,
     };
-    directive = new ScrollCollapseDirective(el, ngZone, windowRef);
+    cdRef = {
+      detectChanges: () => null,
+    };
+    directive = new ScrollCollapseDirective(el, ngZone, cdRef, windowRef);
     directive.ngAfterViewInit();
   });
 
   describe('scroll event', () => {
     it('should call event handler', fakeAsync(() => {
-      const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
+      const spy = spyOn(directive, 'onScrollEvent').and.callThrough();
       const events = [
         { pageXOffset: 0, pageYOffset: 0, width: 1366, height: 768 },
         { pageXOffset: 0, pageYOffset: 50, width: 1366, height: 768 },
       ];
       directive.debounce = 100;
       directive.ngAfterViewInit();
-      windowRef.triggerEvent();
+      windowRef.triggerEvent.scroll();
       tick(50);
       expect(spy).not.toHaveBeenCalled();
       windowRef.pageYOffset = 50;
-      windowRef.triggerEvent();
+      windowRef.triggerEvent.scroll();
       tick(100);
       expect(spy).toHaveBeenCalledWith(events);
       expect(directive.isScrollingUp).toBeFalsy();
       expect(directive.isScrollingDown).toBeTruthy();
 
       windowRef.pageYOffset = 0;
-      windowRef.triggerEvent();
+      windowRef.triggerEvent.scroll();
       tick(100);
       expect(spy.calls.mostRecent().args).toEqual([events.reverse()]);
       expect(directive.isScrollingUp).toBeTruthy();
@@ -61,8 +65,9 @@ describe('ScrollCollapseDirective', () => {
     }));
 
     it('should remove event handler on destroy', () => {
-      const spy = spyOn(directive, 'onScrollOrResizeEvent').and.callThrough();
+      const spy = spyOn(directive, 'onScrollEvent').and.callThrough();
       directive.ngOnDestroy();
+      windowRef.triggerEvent.scroll();
       expect(spy).not.toHaveBeenCalled();
     });
   });
@@ -337,6 +342,26 @@ describe('ScrollCollapseDirective', () => {
         height: 768,
       });
       expect(directive.affixMode).toBeFalsy();
+    });
+  });
+
+  describe('resize event', () => {
+    it('should call event handler', fakeAsync(() => {
+      const spy = spyOn(directive, 'onResizeEvent').and.callThrough();
+      directive.debounce = 100;
+      directive.ngAfterViewInit();
+      windowRef.triggerEvent.resize();
+      tick(50);
+      expect(spy).not.toHaveBeenCalled();
+      windowRef.triggerEvent.resize();
+      tick(100);
+      expect(spy).toHaveBeenCalled();
+    }));
+
+    it('should get original top and height', () => {
+      const spy = spyOn(directive, 'getOriginalTopAndHeight').and.callThrough();
+      directive.onResizeEvent();
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

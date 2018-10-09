@@ -9,6 +9,7 @@ import {
   Output,
   EventEmitter,
   Inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
 import {
@@ -46,123 +47,130 @@ import * as classes from './shared/classes';
 export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * The last scroll direction
-   *
-   * @memberof ScrollCollapseDirective
    */
-  private scrollDirection: Direction;
+  scrollDirection: Direction;
   /**
    * Emits scroll direction on scroll or window resize.
-   *
-   * @memberof ScrollCollapseDirective
    */
   @Output()
   scrollDirectionChange = new EventEmitter<Direction>();
   /**
    * Original offsetTop of element
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public originalTop = 0;
+  originalTop = 0;
   /**
    * Original offsetHeight of element
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public originalHeight: number;
+  originalHeight: number;
   /**
    * Completes on component destroy lifecycle event
    * use to handle unsubscription from infinite observables
-   *
-   * @memberof ScrollCollapseDirective
    */
   private ngUnsubscribe$ = new Subject<void>();
   /**
    * Amount of time in ms to wait for other scroll events
    * before running event handler
-   *
-   * @default 0
-   * @memberof ScrollCollapseDirective
    */
   @Input()
-  public debounce = 0;
+  debounce = 0;
   /**
    * Number of pixels before the elements originalTop
    * position is scroll to that the sn-affix class will be applied.
    * This value will need to take into account elements which become
    * fixed above this element while scrolling as they reduce
    * the height of the document and the pageYOffset number.
-   *
-   * @default 0
-   * @memberof ScrollCollapseDirective
    */
   @Input()
-  public yOffset = 0;
+  yOffset = 0;
   /**
    * Returns true if last scroll direction is UP
-   *
-   * @readonly
-   * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.directionUpClass)
-  public get isScrollingUp(): boolean {
+  get isScrollingUp(): boolean {
     return this.scrollDirection === Direction.UP;
   }
   /**
    * Returns true if last scroll direction is DOWN
-   *
-   * @readonly
-   * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.directionDownClass)
-  public get isScrollingDown(): boolean {
+  get isScrollingDown(): boolean {
     return this.scrollDirection === Direction.DOWN;
   }
   /**
    * Returns true if the user has scrolled pass the original `offsetTop`
    * position of the element.
-   *
-   * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.affixClass)
-  public affixMode = false;
+  affixMode = false;
   /**
    * Emits affix boolean on scroll or window resize.
-   *
-   * @memberof ScrollCollapseDirective
    */
   @Output()
   affixChange = new EventEmitter<Boolean>();
   /**
    * Returns true if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
-   *
-   * @memberof ScrollCollapseDirective
    */
   @HostBinding(classes.minimiseClass)
-  public minimiseMode = false;
+  minimiseMode = false;
   /**
    * Emits affix boolean on scroll or window resize.
-   *
-   * @memberof ScrollCollapseDirective
    */
   @Output()
   minimiseChange = new EventEmitter<Boolean>();
   /**
-   * Creates an instance of ScrollCollapseDirective.
-   * @memberof ScrollCollapseDirective
+   * Creates an instance of ScrollCollapseDirect
    */
   constructor(
     private el: ElementRef,
     private ngZone: NgZone,
+    private cdRef: ChangeDetectorRef,
     @Inject(WINDOW) private window: Window,
   ) {}
   /**
    * Subscribe to window resize events as an observable
    * will calculate directive values
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public ngAfterViewInit(): void {
+  ngAfterViewInit() {
+    this.getOriginalTopAndHeight();
+    const resizeSubject = fromEvent(this.window, eventData.eventResize);
+    const scrollSubject = fromEvent(this.window, eventData.eventScroll);
+    this.ngZone.runOutsideAngular(() => {
+      scrollSubject
+        .pipe(
+          startWith(null),
+          map(() => this.getViewport()),
+          bufferCount(2, 1),
+          distinctUntilChanged(),
+          // Do not apply debounce operator if debounce is set to 0
+          this.debounce ? debounceTime(this.debounce) : tap(),
+          takeUntil(this.ngUnsubscribe$),
+        )
+        .subscribe((events: Viewport[]) =>
+          this.ngZone.run(() => this.onScrollEvent(events)),
+        );
+
+      resizeSubject
+        .pipe(
+          takeUntil(this.ngUnsubscribe$),
+          this.debounce ? debounceTime(this.debounce) : tap(),
+        )
+        .subscribe(() => this.ngZone.run(() => this.onResizeEvent()));
+    });
+  }
+  /**
+   * trigger `ngUnsubscribe` complete on
+   * component destroy lifecycle hook
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
+  }
+  /**
+   * Get original element position and height to base
+   * other calculations from.
+   */
+  getOriginalTopAndHeight() {
     const el: HTMLElement = this.el.nativeElement;
     // Check if `getBoundingClientRect` is a function in case running
     // in an platform without the DOM
@@ -171,47 +179,39 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
       this.originalTop = elBounds.top + this.window.pageYOffset;
     }
     this.originalHeight = el.offsetHeight;
-
-    this.ngZone.runOutsideAngular(() => {
-      merge(
-        fromEvent(this.window as any, eventData.eventScroll),
-        fromEvent(this.window as any, eventData.eventResize),
-      )
-        .pipe(
-          startWith(null),
-          map(() => this.getViewport()),
-          bufferCount(2, 1),
-          distinctUntilChanged(),
-          // Do not apply debounce operator if debounce is set to 0
-          this.debounce ? debounceTime(this.debounce) : tap(null),
-          takeUntil(this.ngUnsubscribe$),
-        )
-        .subscribe((events: Viewport[]) =>
-          this.ngZone.run(() => this.onScrollOrResizeEvent(events)),
-        );
-    });
   }
   /**
-   * Event handler for scroll and resize events
+   * Event handler for scroll events
    * Calculates values scroll direction, affix and
    * minimise properties
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public onScrollOrResizeEvent(events: Viewport[]): void {
-    const previousEvent = events[0];
-    const currentEvent = events[1];
-    this.calculateScrollDirection(events);
+  onScrollEvent([previousEvent, currentEvent]: Viewport[]) {
+    this.calculateScrollDirection([previousEvent, currentEvent]);
     this.calculateMinimiseMode(currentEvent);
     this.calculateAffixMode(currentEvent);
   }
   /**
+   * Remove minimise, affix and scrolling states and recalulate
+   * element offsetTop and offsetHeight
+   */
+  onResizeEvent() {
+    const scrollDirection = this.scrollDirection;
+    const affixMode = this.affixMode;
+    const minimiseMode = this.minimiseMode;
+    this.affixMode = false;
+    this.minimiseMode = false;
+    this.scrollDirection = null;
+    this.cdRef.detectChanges();
+    this.getOriginalTopAndHeight();
+    this.scrollDirection = scrollDirection;
+    this.affixMode = affixMode;
+    this.minimiseMode = minimiseMode;
+  }
+  /**
    * Calculate last scroll direction by comparing y scroll position
    * of last two values of `viewport$` observable
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public calculateScrollDirection(events: Viewport[]): void {
+  calculateScrollDirection(events: Viewport[]) {
     const pastEvent = events[0];
     const currentEvent = events[1];
     const noScrollChange = pastEvent.pageYOffset === currentEvent.pageYOffset;
@@ -230,10 +230,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * Calculate if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public calculateMinimiseMode(viewport: Viewport): void {
+  calculateMinimiseMode(viewport: Viewport) {
     const newMinimiseMode =
       viewport.pageYOffset >= this.originalHeight + this.originalTop;
     if (this.minimiseMode !== newMinimiseMode) {
@@ -244,10 +242,8 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   /**
    * Calculate if the user has scrolled pass the origin height of
    * the element assuming the element is fixed at the top of the page
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public calculateAffixMode(viewport: Viewport): void {
+  calculateAffixMode(viewport: Viewport) {
     const newAffixMode =
       viewport.pageYOffset >= this.originalTop - this.yOffset;
     if (this.affixMode !== newAffixMode) {
@@ -257,25 +253,13 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   }
   /**
    * Return current viewport values
-   *
-   * @memberof ScrollCollapseDirective
    */
-  public getViewport(): Viewport {
+  getViewport(): Viewport {
     return {
       height: this.window.innerHeight,
       width: this.window.innerWidth,
       pageYOffset: this.window.pageYOffset,
       pageXOffset: this.window.pageXOffset,
     };
-  }
-  /**
-   * trigger `ngUnsubscribe` complete on
-   * component destroy lifecycle hook
-   *
-   * @memberof ScrollCollapseDirective
-   */
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next();
-    this.ngUnsubscribe$.complete();
   }
 }
