@@ -8,6 +8,7 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  Inject,
 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
 import {
@@ -19,7 +20,7 @@ import {
   distinctUntilChanged,
   tap,
 } from 'rxjs/operators';
-import { WindowRef } from '@thisissoon/angular-inviewport';
+import { WINDOW } from '@thisissoon/angular-inviewport';
 
 import { Viewport, Direction } from './shared';
 import * as eventData from './shared/event-data';
@@ -153,7 +154,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
   constructor(
     private el: ElementRef,
     private ngZone: NgZone,
-    private windowRef: WindowRef,
+    @Inject(WINDOW) private window: Window,
   ) {}
   /**
    * Subscribe to window resize events as an observable
@@ -167,14 +168,14 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     // in an platform without the DOM
     if (typeof el.getBoundingClientRect === 'function') {
       const elBounds = el.getBoundingClientRect();
-      this.originalTop = elBounds.top + this.windowRef.pageYOffset;
+      this.originalTop = elBounds.top + this.window.pageYOffset;
     }
     this.originalHeight = el.offsetHeight;
 
     this.ngZone.runOutsideAngular(() => {
       merge(
-        fromEvent(this.windowRef as any, eventData.eventScroll),
-        fromEvent(this.windowRef as any, eventData.eventResize),
+        fromEvent(this.window as any, eventData.eventScroll),
+        fromEvent(this.window as any, eventData.eventResize),
       )
         .pipe(
           startWith(null),
@@ -261,10 +262,10 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
    */
   public getViewport(): Viewport {
     return {
-      height: this.windowRef.innerHeight,
-      width: this.windowRef.innerWidth,
-      pageYOffset: this.windowRef.pageYOffset,
-      pageXOffset: this.windowRef.pageXOffset,
+      height: this.window.innerHeight,
+      width: this.window.innerWidth,
+      pageYOffset: this.window.pageYOffset,
+      pageXOffset: this.window.pageXOffset,
     };
   }
   /**
