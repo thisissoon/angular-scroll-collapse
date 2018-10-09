@@ -1,0 +1,42 @@
+#
+# CircleCI configuration for @thisissoon/angular-scroll-collapse
+#
+
+version: 2
+
+jobs:
+  setup:
+    working_directory: ~/angular-scroll-collapse
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: ~/angular-scroll-collapse-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: yarn --silent
+      - save_cache:
+          key: ~/angular-scroll-collapse-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - 'node_modules'
+
+  test:
+    working_directory: ~/angular-scroll-collapse
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: ~/angular-scroll-collapse-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: yarn lint
+      - run: yarn test --configuration ci
+      - run: yarn e2e
+      - run: yarn coverage
+
+workflows:
+  version: 2
+  setup_and_test:
+    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
