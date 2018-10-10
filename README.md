@@ -24,21 +24,14 @@ This is a simple library for [Angular][angular], implemented in the [Angular Pac
 `app.module.ts`
 
 ```ts
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
+import { InViewportModule } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
 
 @NgModule({
-  imports: [
-    InViewportModule.forRoot([
-      { provide: WindowRef, useFactory: () => window },
-    ]),
-    ScrollCollapseModule,
-  ],
+  imports: [InViewportModule, ScrollCollapseModule],
 })
 export class AppModule {}
 ```
-
-`yarn add @thisissoon/angular-scroll-collapse @thisissoon/angular-inviewport`
 
 `app.server.module.ts`
 
@@ -47,17 +40,14 @@ import { InViewportModule } from '@thisissoon/angular-inviewport';
 import { ScrollCollapseModule } from '@thisissoon/angular-scroll-collapse';
 
 @NgModule({
-  imports: [
-    InViewportModule.forRoot(), // No need to provide WindowRef for server module
-    ScrollCollapseModule,
-  ],
+  imports: [InViewportModule.forServer(), ScrollCollapseModule],
 })
 export class AppServerModule {}
 ```
 
 ## Examples
 
-A working example can be found inside [/src](https://github.com/thisissoon/angular-scroll-collapse/tree/master/src) folder.
+A working example can be found inside [here](https://github.com/thisissoon/angular-scroll-collapse/tree/master/src).
 
 ### Scroll direction
 
@@ -127,9 +117,10 @@ In this scenario the nav element will have the class `sn-minimise` added when th
 
 ```css
 .foo {
-  left: 0;
   height: 100px;
-  positionright: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
   top: 0;
 }
 
