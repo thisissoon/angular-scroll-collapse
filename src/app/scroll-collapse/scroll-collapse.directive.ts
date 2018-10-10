@@ -189,6 +189,7 @@ export class ScrollCollapseDirective implements AfterViewInit, OnDestroy {
     this.calculateScrollDirection([previousEvent, currentEvent]);
     this.calculateMinimiseMode(currentEvent);
     this.calculateAffixMode(currentEvent);
+    this.cdRef.detectChanges();
   }
   /**
    * Remove minimise, affix and scrolling states and recalulate
