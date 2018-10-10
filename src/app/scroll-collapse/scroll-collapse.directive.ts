@@ -39,7 +39,7 @@ import * as classes from './shared/classes';
  * ```html
  * <p snScrollCollapse [debounce]="0">Amet tempor excepteur occaecat nulla.</p>
  * ```
- *
+ * @dynamic
  */
 @Directive({
   selector: '[snScrollCollapse]',
