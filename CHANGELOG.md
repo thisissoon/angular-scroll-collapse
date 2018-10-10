@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.3.1...v4.0.0) (2018-10-10)
+
+
+### Bug Fixes
+
+* **ScrollCollapse:** minimise state not set correctly on page load ([#31](https://github.com/thisissoon/angular-scroll-collapse/issues/31)) ([2db3d9f](https://github.com/thisissoon/angular-scroll-collapse/commit/2db3d9f)), closes [#21](https://github.com/thisissoon/angular-scroll-collapse/issues/21)
+* **ScrollCollapse:** recalculate offsetHeight and offsetTop on resize ([#30](https://github.com/thisissoon/angular-scroll-collapse/issues/30)) ([3661e76](https://github.com/thisissoon/angular-scroll-collapse/commit/3661e76)), closes [#22](https://github.com/thisissoon/angular-scroll-collapse/issues/22)
+
+
+### Features
+
+* **ScrollCollapse:** Updated [@thisissoon](https://github.com/thisissoon)/angular-inviewport to v4.0.0 ([#29](https://github.com/thisissoon/angular-scroll-collapse/issues/29)) ([2bb8950](https://github.com/thisissoon/angular-scroll-collapse/commit/2bb8950)), closes [#28](https://github.com/thisissoon/angular-scroll-collapse/issues/28)
+
+
+### BREAKING CHANGES
+
+* **ScrollCollapse:** updated @thisissoon/angular-inviewport peer dependency to v4
+
+
+
 <a name="3.3.1"></a>
 
 ## [3.3.1](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.3.0...v3.3.1) (2018-07-20)
