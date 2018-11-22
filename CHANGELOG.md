@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v4.0.0...v4.1.0) (2018-11-22)
+
+
+### Features
+
+* **scroll-collapse:** add support for angular 7 ([1792bfe](https://github.com/thisissoon/angular-scroll-collapse/commit/1792bfe))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/thisissoon/angular-scroll-collapse/compare/v3.3.1...v4.0.0) (2018-10-10)
 
